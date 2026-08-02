@@ -5,6 +5,7 @@ import Link from "next/link";
 import { BUILTIN_FOODS, type FoodCategory } from "@/lib/data/genericFoods";
 import { computeMacroScore } from "@/lib/scoring/macroScore";
 import type { HomemadeScore } from "@/lib/types/product";
+import { normalizeSearchText } from "@/lib/utils/normalize";
 
 const SCORE_COLOR: Record<HomemadeScore["label"], string> = {
   excellent: "text-green-400",
@@ -24,22 +25,13 @@ const CATEGORY_ORDER: FoodCategory[] = [
   "Légumineuses & noix",
 ];
 
-function normalize(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/œ/g, "oe")
-    .replace(/æ/g, "ae")
-    .normalize("NFD")
-    .replace(new RegExp("[\\u0300-\\u036f]", "g"), "");
-}
-
 export default function FoodsPage() {
   const [search, setSearch] = useState("");
 
   const groups = useMemo(() => {
-    const query = normalize(search.trim());
+    const query = normalizeSearchText(search.trim());
     const filtered = query
-      ? BUILTIN_FOODS.filter((f) => normalize(f.product.name).includes(query))
+      ? BUILTIN_FOODS.filter((f) => normalizeSearchText(f.product.name).includes(query))
       : BUILTIN_FOODS;
 
     return CATEGORY_ORDER.map((category) => ({

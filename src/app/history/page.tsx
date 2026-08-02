@@ -83,9 +83,13 @@ export default function HistoryPage() {
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-700">🍽️</div>
               )}
               <div className="min-w-0 flex-1">
-                <Link href={`/product?barcode=${entry.barcode}`} className="block truncate font-medium text-slate-200">
-                  {entry.productName}
-                </Link>
+                {entry.barcode.startsWith("recipe-") ? (
+                  <p className="truncate font-medium text-slate-200">{entry.productName}</p>
+                ) : (
+                  <Link href={`/product?barcode=${entry.barcode}`} className="block truncate font-medium text-slate-200">
+                    {entry.productName}
+                  </Link>
+                )}
                 <p className="text-xs text-slate-500">
                   {entry.quantityGrams}g · {entry.macros.energyKcal} kcal ·{" "}
                   {new Date(entry.timestamp).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
