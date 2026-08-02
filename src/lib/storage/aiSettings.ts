@@ -1,8 +1,13 @@
 const API_KEY_STORAGE_KEY = "nutriscan-gemini-api-key";
 const MODEL_STORAGE_KEY = "nutriscan-gemini-model";
 
-/** Kept as a plain constant (not hardcoded deep in the UI) so it's easy to bump if Google renames/retires this model. */
-export const DEFAULT_GEMINI_MODEL = "gemini-2.0-flash";
+/**
+ * Kept as a plain constant (not hardcoded deep in the UI) so it's easy to bump
+ * if Google renames/retires this model. gemini-2.0-flash was tried first but
+ * returns "limit: 0" (no free-tier quota at all) on at least some API keys -
+ * gemini-1.5-flash has a long-standing, broadly available free tier instead.
+ */
+export const DEFAULT_GEMINI_MODEL = "gemini-1.5-flash";
 
 function isBrowser(): boolean {
   return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
