@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import type { HomemadeScore, Recipe } from "@/lib/types/product";
+import type { Recipe } from "@/lib/types/product";
 import { addHistoryEntry, deleteRecipe, getAllRecipes } from "@/lib/storage/db";
 import {
   computeRecipeMacrosForServings,
@@ -11,14 +11,7 @@ import {
   recipeTotalWeightGrams,
 } from "@/lib/recipes/calculate";
 import { computeMacroScore } from "@/lib/scoring/macroScore";
-
-const SCORE_COLOR: Record<HomemadeScore["label"], string> = {
-  excellent: "text-green-400",
-  bon: "text-lime-400",
-  moyen: "text-yellow-400",
-  mediocre: "text-orange-400",
-  mauvais: "text-red-400",
-};
+import { SCORE_LABEL_COLOR } from "@/lib/scoring/scoreDisplay";
 
 function RecipeCard({ recipe, onDelete }: { recipe: Recipe; onDelete: (id: string) => void }) {
   const [servingsToLog, setServingsToLog] = useState(1);
@@ -58,7 +51,7 @@ function RecipeCard({ recipe, onDelete }: { recipe: Recipe; onDelete: (id: strin
             {recipe.servings} portion{recipe.servings > 1 ? "s" : ""} · {perServing.energyKcal} kcal/portion
           </p>
         </div>
-        <span className={`shrink-0 text-sm font-bold ${SCORE_COLOR[score.label]}`}>{score.score}/100</span>
+        <span className={`shrink-0 text-sm font-bold ${SCORE_LABEL_COLOR[score.label]}`}>{score.score}/100</span>
       </div>
 
       <div className="flex items-center gap-2">

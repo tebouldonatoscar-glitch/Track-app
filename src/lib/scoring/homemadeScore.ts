@@ -1,4 +1,5 @@
 import type { HomemadeScore, NovaGroup, NutrientsPer100g, NutriScoreGrade } from "@/lib/types/product";
+import { roundTo } from "@/lib/utils/round";
 
 const NUTRISCORE_BASE: Record<NutriScoreGrade, number> = {
   a: 95,
@@ -75,9 +76,4 @@ export function computeHomemadeScore(
   else label = "mauvais";
 
   return { score, label, reasons };
-}
-
-function roundTo(value: number, decimals: number): number {
-  const factor = 10 ** decimals;
-  return Math.round(value * factor) / factor;
 }

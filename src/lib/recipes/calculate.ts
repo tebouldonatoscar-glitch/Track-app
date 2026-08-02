@@ -1,5 +1,6 @@
 import type { MacroBreakdown, NutrientsPer100g, Recipe } from "@/lib/types/product";
 import { calculateMacrosForQuantity, sumMacros } from "@/lib/macros/calculate";
+import { roundTo } from "@/lib/utils/round";
 
 export function recipeTotalWeightGrams(recipe: Recipe): number {
   return recipe.ingredients.reduce((sum, ingredient) => sum + ingredient.quantityGrams, 0);
@@ -59,9 +60,4 @@ export function recipeNutrientsPer100g(recipe: Recipe): NutrientsPer100g {
     fiber: roundTo(total.fiber * factor, 1),
     salt: roundTo(total.salt * factor, 2),
   };
-}
-
-function roundTo(value: number, decimals: number): number {
-  const factor = 10 ** decimals;
-  return Math.round(value * factor) / factor;
 }

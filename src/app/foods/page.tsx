@@ -4,16 +4,8 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { BUILTIN_FOODS, type FoodCategory } from "@/lib/data/genericFoods";
 import { computeMacroScore } from "@/lib/scoring/macroScore";
-import type { HomemadeScore } from "@/lib/types/product";
+import { SCORE_LABEL_COLOR } from "@/lib/scoring/scoreDisplay";
 import { normalizeSearchText } from "@/lib/utils/normalize";
-
-const SCORE_COLOR: Record<HomemadeScore["label"], string> = {
-  excellent: "text-green-400",
-  bon: "text-lime-400",
-  moyen: "text-yellow-400",
-  mediocre: "text-orange-400",
-  mauvais: "text-red-400",
-};
 
 const CATEGORY_ORDER: FoodCategory[] = [
   "Fruits",
@@ -75,7 +67,7 @@ export default function FoodsPage() {
                 <Link key={product.barcode} href={`/product?barcode=${product.barcode}`} className="card">
                   <div className="flex items-center justify-between gap-2">
                     <p className="truncate text-sm font-medium text-slate-200">{product.name}</p>
-                    <span className={`shrink-0 text-xs font-bold ${SCORE_COLOR[score.label]}`}>
+                    <span className={`shrink-0 text-xs font-bold ${SCORE_LABEL_COLOR[score.label]}`}>
                       {score.score}/100
                     </span>
                   </div>

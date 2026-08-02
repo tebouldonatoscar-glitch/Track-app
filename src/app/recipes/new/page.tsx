@@ -10,15 +10,8 @@ import { saveRecipe } from "@/lib/storage/db";
 import { generateRecipeId } from "@/lib/storage/generateId";
 import { computeRecipePerServingMacros, computeRecipeTotalMacros, recipeNutrientsPer100g } from "@/lib/recipes/calculate";
 import { computeMacroScore } from "@/lib/scoring/macroScore";
+import { SCORE_LABEL_COLOR } from "@/lib/scoring/scoreDisplay";
 import MacroBreakdownCard from "@/components/MacroBreakdownCard";
-
-const SCORE_COLOR: Record<string, string> = {
-  excellent: "text-green-400",
-  bon: "text-lime-400",
-  moyen: "text-yellow-400",
-  mediocre: "text-orange-400",
-  mauvais: "text-red-400",
-};
 
 export default function NewRecipePage() {
   const router = useRouter();
@@ -169,7 +162,7 @@ export default function NewRecipePage() {
           <div className="card space-y-2">
             <div className="flex items-center justify-between">
               <h2 className="font-semibold text-slate-200">Score nutritionnel</h2>
-              <span className={`text-lg font-bold ${SCORE_COLOR[score.label]}`}>{score.score}/100</span>
+              <span className={`text-lg font-bold ${SCORE_LABEL_COLOR[score.label]}`}>{score.score}/100</span>
             </div>
             <p className="text-xs text-slate-500">
               Par portion : {perServingMacros.energyKcal} kcal · {perServingMacros.proteins}g protéines ·{" "}
