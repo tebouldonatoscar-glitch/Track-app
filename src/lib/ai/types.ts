@@ -1,4 +1,4 @@
-import type { MacroBreakdown } from "@/lib/types/product";
+import type { MacroBreakdown, NutrientsPer100g } from "@/lib/types/product";
 
 export interface AiMealEstimate {
   dishName: string;
@@ -17,4 +17,15 @@ export type GeminiEstimateErrorCode =
 
 export type GeminiEstimateResult =
   | { ok: true; estimate: AiMealEstimate }
+  | { ok: false; error: GeminiEstimateErrorCode; message?: string };
+
+export interface AiLabelScan {
+  productName: string | null;
+  /** Per-100g/100ml, normalized by the model even when the label prints per-serving values. */
+  nutrients: NutrientsPer100g;
+  confidenceNote: string | null;
+}
+
+export type GeminiLabelScanResult =
+  | { ok: true; scan: AiLabelScan }
   | { ok: false; error: GeminiEstimateErrorCode; message?: string };
