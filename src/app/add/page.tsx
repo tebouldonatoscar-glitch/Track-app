@@ -8,12 +8,8 @@ import { saveManualProduct } from "@/lib/storage/db";
 import { generateManualProductId } from "@/lib/storage/generateId";
 import { isValidBarcode } from "@/lib/api/openFoodFacts";
 import { convertPerUnitToPer100g } from "@/lib/macros/calculate";
-
-function parseNumberField(value: string): number | null {
-  if (value.trim() === "") return null;
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
-}
+import { parseNumberField } from "@/lib/utils/parseNumberField";
+import NumField from "@/components/NumField";
 
 function AddProductForm() {
   const searchParams = useSearchParams();
@@ -306,25 +302,6 @@ function AddProductForm() {
         </button>
       </form>
     </main>
-  );
-}
-
-function NumField({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
-  const id = useId();
-  return (
-    <div>
-      <label htmlFor={id} className="mb-1 block text-xs text-slate-400">
-        {label}
-      </label>
-      <input
-        id={id}
-        type="number"
-        inputMode="decimal"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="input-field"
-      />
-    </div>
   );
 }
 

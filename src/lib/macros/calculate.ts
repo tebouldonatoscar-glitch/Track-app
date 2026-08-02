@@ -1,4 +1,5 @@
 import type { MacroBreakdown, NutrientsPer100g } from "@/lib/types/product";
+import { roundTo } from "@/lib/utils/round";
 
 function scaleValue(per100g: number | null, quantityGrams: number): number {
   if (per100g === null) return 0;
@@ -26,11 +27,6 @@ export function calculateMacrosForQuantity(
     fiber: roundTo(scaleValue(nutrients.fiber, safeQuantity), 1),
     salt: roundTo(scaleValue(nutrients.salt, safeQuantity), 2),
   };
-}
-
-function roundTo(value: number, decimals: number): number {
-  const factor = 10 ** decimals;
-  return Math.round(value * factor) / factor;
 }
 
 export function hasCompleteNutrientData(nutrients: NutrientsPer100g): boolean {

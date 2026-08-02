@@ -7,18 +7,13 @@ import type { Product } from "@/lib/types/product";
 import { saveManualProduct } from "@/lib/storage/db";
 import { generateManualProductId } from "@/lib/storage/generateId";
 import { convertPerUnitToPer100g } from "@/lib/macros/calculate";
+import { parseNumberField } from "@/lib/utils/parseNumberField";
 
 const VOLUME_PRESETS = [
   { label: "Canette (33cl)", ml: 330 },
   { label: "Bouteille (50cl)", ml: 500 },
   { label: "Bouteille (1L)", ml: 1000 },
 ];
-
-function parseNumberField(value: string): number | null {
-  if (value.trim() === "") return null;
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
-}
 
 export default function AddDrinkPage() {
   const router = useRouter();

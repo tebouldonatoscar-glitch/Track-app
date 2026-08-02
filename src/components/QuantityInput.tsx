@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { roundTo } from "@/lib/utils/round";
 
 interface QuantityInputProps {
   value: number; // always the resolved quantity in grams
@@ -14,10 +15,6 @@ interface QuantityInputProps {
 const GRAM_PRESETS = [50, 100, 150, 250];
 const UNIT_PRESETS = [1, 2, 3, 6, 12];
 
-function roundToOneDecimal(n: number): number {
-  return Math.round(n * 10) / 10;
-}
-
 export default function QuantityInput({
   value,
   onChange,
@@ -29,7 +26,7 @@ export default function QuantityInput({
   const hasUnitInfo = Boolean(unitLabel) && Boolean(unitWeightGrams) && (unitWeightGrams as number) > 0;
   const [mode, setMode] = useState<"grams" | "units">(hasUnitInfo ? "units" : "grams");
   const [unitCount, setUnitCount] = useState<number>(() =>
-    hasUnitInfo ? roundToOneDecimal(value / (unitWeightGrams as number)) : 1
+    hasUnitInfo ? roundTo(value / (unitWeightGrams as number), 1) : 1
   );
 
   const handleUnitCountChange = (count: number) => {
