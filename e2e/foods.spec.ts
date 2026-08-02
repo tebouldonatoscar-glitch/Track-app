@@ -25,4 +25,17 @@ test.describe("Built-in foods database", () => {
     await page.getByPlaceholder("Rechercher un aliment…").fill("zzzznotfound");
     await expect(page.getByText("Aucun résultat.")).toBeVisible();
   });
+
+  test("fats and sugars are measurable by spoon (olive oil)", async ({ page }) => {
+    await page.goto("/foods");
+    await expect(page.getByRole("heading", { name: "Matières grasses & sucres" })).toBeVisible();
+
+    await page.getByPlaceholder("Rechercher un aliment…").fill("huile");
+    await page.getByText("Huile d'olive", { exact: true }).click();
+
+    await expect(page).toHaveURL(/\/product\/?\?barcode=builtin-huile-olive/);
+    await expect(page.getByLabel("Quantité (cuillère à soupes)")).toHaveValue("1");
+    // 1 tbsp (14g) of pure fat at 884 kcal/100g -> ~124 kcal
+    await expect(page.getByText("124 kcal")).toBeVisible();
+  });
 });

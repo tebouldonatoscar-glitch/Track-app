@@ -4,7 +4,14 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { BUILTIN_FOODS, type FoodCategory } from "@/lib/data/genericFoods";
 
-const CATEGORY_ORDER: FoodCategory[] = ["Fruits", "Légumes", "Œufs & laitages", "Féculents", "Légumineuses & noix"];
+const CATEGORY_ORDER: FoodCategory[] = [
+  "Fruits",
+  "Légumes",
+  "Œufs & laitages",
+  "Matières grasses & sucres",
+  "Féculents",
+  "Légumineuses & noix",
+];
 
 function normalize(text: string): string {
   return text
