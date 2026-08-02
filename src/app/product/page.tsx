@@ -152,9 +152,14 @@ function ProductPageContent() {
         <div className="card space-y-3 text-center">
           <p className="text-slate-300">{ERROR_MESSAGES[error ?? "unknown_error"]}</p>
           {error === "not_found" && (
-            <Link href={`/add?barcode=${encodeURIComponent(barcode)}`} className="btn-primary">
-              Ajouter ce produit manuellement
-            </Link>
+            <>
+              <Link href={`/add?barcode=${encodeURIComponent(barcode)}`} className="btn-primary block">
+                Ajouter ce produit manuellement
+              </Link>
+              <Link href={`/add/label?barcode=${encodeURIComponent(barcode)}`} className="btn-secondary block">
+                📷 Photographier l&apos;étiquette (IA)
+              </Link>
+            </>
           )}
           {error === "network_error" && (
             <button className="btn-secondary" onClick={() => router.refresh()}>

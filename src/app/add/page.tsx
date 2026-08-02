@@ -137,6 +137,9 @@ function AddProductForm() {
         Pour un produit sans code-barres (œufs, farine, fruits en vrac…), laissez le champ
         code-barres vide.
       </p>
+      <Link href="/add/label" className="block text-sm text-green-400 underline">
+        📷 Ou prenez en photo l&apos;étiquette nutritionnelle, l&apos;IA lit les chiffres →
+      </Link>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
