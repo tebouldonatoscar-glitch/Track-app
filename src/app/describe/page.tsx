@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import type { AiMealEstimate, GeminiEstimateErrorCode } from "@/lib/ai/types";
 import { estimateMealWithGemini } from "@/lib/ai/geminiEstimate";
+import { extractGeminiErrorDetail } from "@/lib/ai/extractErrorDetail";
 import { resizeImageFileToBase64 } from "@/lib/ai/resizeImage";
 import {
   getStoredGeminiApiKey,
@@ -97,7 +98,8 @@ export default function DescribePage() {
         setEstimate(result.estimate);
         setDishName(result.estimate.dishName);
       } else {
-        setError(ERROR_MESSAGES[result.error]);
+        const detail = extractGeminiErrorDetail(result.message);
+        setError(detail ? `${ERROR_MESSAGES[result.error]} (détail Google : ${detail})` : ERROR_MESSAGES[result.error]);
       }
     } catch {
       setError("Impossible de traiter la photo. Réessaie avec une autre image.");
@@ -233,7 +235,15 @@ export default function DescribePage() {
         {loading ? "Estimation en cours…" : "Estimer avec l'IA"}
       </button>
 
-      {error && <p className="text-sm text-red-400">{error}</p>}
+      {error && (
+        <div className="space-y-1">
+          <p className="text-sm text-red-400">{error}</p>
+          <p className="text-xs text-slate-500">
+            Persiste ? Essaie un autre modèle ci-dessus (ex: <code>gemini-1.5-flash</code>) — tous
+            ne sont pas forcément activés pour ta clé.
+          </p>
+        </div>
+      )}
 
       {estimate && (
         <div className="space-y-4">

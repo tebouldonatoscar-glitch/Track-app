@@ -85,15 +85,40 @@ describe("estimateMealWithGemini", () => {
     expect(result).toEqual({ ok: false, error: "invalid_key" });
   });
 
-  it("maps a 429 response to rate_limited", async () => {
-    const fetchMock = vi.fn().mockResolvedValue({ ok: false, status: 429 });
+  it("maps a 429 response to rate_limited and keeps Google's error body for display", async () => {
+    const body = JSON.stringify({ error: { message: "You exceeded your current quota." } });
+    const fetchMock = vi.fn().mockResolvedValue({ ok: false, status: 429, text: async () => body });
     const result = await estimateMealWithGemini({
       apiKey: "test-key",
       model: "gemini-2.0-flash",
       description: "Une pomme",
       fetchImpl: fetchMock as unknown as typeof fetch,
     });
-    expect(result).toEqual({ ok: false, error: "rate_limited" });
+    expect(result).toEqual({ ok: false, error: "rate_limited", message: body });
+  });
+
+  it("maps a 400 response mentioning the API key to invalid_key", async () => {
+    const body = JSON.stringify({ error: { message: "API key not valid. Please pass a valid API key." } });
+    const fetchMock = vi.fn().mockResolvedValue({ ok: false, status: 400, text: async () => body });
+    const result = await estimateMealWithGemini({
+      apiKey: "bad-key",
+      model: "gemini-2.0-flash",
+      description: "Une pomme",
+      fetchImpl: fetchMock as unknown as typeof fetch,
+    });
+    expect(result).toEqual({ ok: false, error: "invalid_key", message: body });
+  });
+
+  it("maps a 400 response NOT about the API key to api_error (e.g. an unknown model name)", async () => {
+    const body = JSON.stringify({ error: { message: "models/does-not-exist is not found for API version v1beta" } });
+    const fetchMock = vi.fn().mockResolvedValue({ ok: false, status: 400, text: async () => body });
+    const result = await estimateMealWithGemini({
+      apiKey: "test-key",
+      model: "does-not-exist",
+      description: "Une pomme",
+      fetchImpl: fetchMock as unknown as typeof fetch,
+    });
+    expect(result).toEqual({ ok: false, error: "api_error", message: body });
   });
 
   it("returns network_error when fetch throws", async () => {

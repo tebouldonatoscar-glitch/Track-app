@@ -81,12 +81,6 @@ export async function estimateMealWithGemini(params: EstimateMealParams): Promis
     return { ok: false, error: "network_error" };
   }
 
-  if (response.status === 400 || response.status === 403) {
-    return { ok: false, error: "invalid_key" };
-  }
-  if (response.status === 429) {
-    return { ok: false, error: "rate_limited" };
-  }
   if (!response.ok) {
     let message: string | undefined;
     try {
@@ -94,6 +88,17 @@ export async function estimateMealWithGemini(params: EstimateMealParams): Promis
     } catch {
       message = undefined;
     }
+
+    if (response.status === 403) return { ok: false, error: "invalid_key", message };
+    if (response.status === 400) {
+      // Google returns 400 both for a malformed/rejected key and for other
+      // request problems (e.g. an invalid model name) - the message body is
+      // the only way to tell them apart, so surface it rather than guessing.
+      const looksLikeKeyIssue = /api key|api_key_invalid|permission/i.test(message ?? "");
+      return { ok: false, error: looksLikeKeyIssue ? "invalid_key" : "api_error", message };
+    }
+    if (response.status === 429) return { ok: false, error: "rate_limited", message };
+
     return { ok: false, error: "api_error", message };
   }
 
