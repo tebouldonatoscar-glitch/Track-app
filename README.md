@@ -60,10 +60,11 @@ Le workflow :
 2. build l'export statique (`npm run build` → dossier `out/`) ;
 3. publie `out/` sur GitHub Pages via `actions/deploy-pages`.
 
-**Étape manuelle unique requise** (impossible à faire depuis l'agent, nécessite un accès aux
-paramètres du dépôt) : dans **Settings → Pages** du dépôt GitHub, régler *Source* sur
-**"GitHub Actions"**. Une fois cette option activée, chaque push sur `main` redéploie
-automatiquement l'app sur `https://<owner>.github.io/Track-app/`.
+L'activation initiale de GitHub Pages (Settings → Pages → Source : "GitHub Actions") a nécessité
+une action manuelle ponctuelle du propriétaire du dépôt : le `GITHUB_TOKEN` fourni à Actions n'a
+pas le droit de créer un site Pages pour la première fois (`Resource not accessible by
+integration`), même avec la permission `pages: write`. Une fois cette activation faite, chaque
+push sur `main` redéploie automatiquement l'app sur `https://tebouldonatoscar-glitch.github.io/Track-app/`.
 
 ## Fonctionnalités
 
