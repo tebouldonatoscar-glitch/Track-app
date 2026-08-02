@@ -15,6 +15,16 @@ async function mockGemini(page: Page, jsonEstimate: Record<string, unknown>, sta
   );
 }
 
+async function mockGeminiError(page: Page, status: number, message: string) {
+  await page.route("https://generativelanguage.googleapis.com/**", (route) =>
+    route.fulfill({
+      status,
+      contentType: "application/json",
+      body: JSON.stringify({ error: { code: status, message, status: "ERROR" } }),
+    })
+  );
+}
+
 test.describe("AI meal estimation", () => {
   test("shows the API key setup section when no key is stored", async ({ page }) => {
     await page.goto("/describe");
@@ -70,6 +80,20 @@ test.describe("AI meal estimation", () => {
     await page.getByRole("button", { name: "Estimer avec l'IA" }).click();
 
     await expect(page.getByText(/Clé API invalide/)).toBeVisible();
+  });
+
+  test("surfaces Google's actual error message alongside the friendly one", async ({ page }) => {
+    await mockGeminiError(page, 429, "You exceeded your current quota, please check your plan and billing details.");
+    await page.goto("/describe");
+
+    await page.getByLabel("Clé API Gemini").fill(FAKE_API_KEY);
+    await page.getByRole("button", { name: "Enregistrer" }).click();
+    await page.getByLabel("Description du plat").fill("Une pomme");
+    await page.getByRole("button", { name: "Estimer avec l'IA" }).click();
+
+    await expect(page.getByText(/Limite d'utilisation gratuite atteinte/)).toBeVisible();
+    await expect(page.getByText(/détail Google : You exceeded your current quota/)).toBeVisible();
+    await expect(page.getByText(/Essaie un autre modèle/)).toBeVisible();
   });
 
   test("remembers a previously saved API key across visits", async ({ page }) => {
