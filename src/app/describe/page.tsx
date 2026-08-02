@@ -6,6 +6,7 @@ import Link from "next/link";
 import type { AiMealEstimate, GeminiEstimateErrorCode } from "@/lib/ai/types";
 import { estimateMealWithGemini } from "@/lib/ai/geminiEstimate";
 import { extractGeminiErrorDetail } from "@/lib/ai/extractErrorDetail";
+import { listAvailableGeminiModels } from "@/lib/ai/listModels";
 import { resizeImageFileToBase64 } from "@/lib/ai/resizeImage";
 import {
   getStoredGeminiApiKey,
@@ -32,6 +33,9 @@ export default function DescribePage() {
   const [apiKey, setApiKey] = useState("");
   const [model, setModel] = useState("");
   const [showSettings, setShowSettings] = useState(false);
+  const [availableModels, setAvailableModels] = useState<string[] | null>(null);
+  const [modelsLoading, setModelsLoading] = useState(false);
+  const [modelsError, setModelsError] = useState<string | null>(null);
 
   const [description, setDescription] = useState("");
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -70,6 +74,31 @@ export default function DescribePage() {
     setStoredGeminiApiKey(apiKey);
     setStoredGeminiModel(model);
     setShowSettings(false);
+  };
+
+  const handleListModels = async () => {
+    setModelsError(null);
+    setAvailableModels(null);
+    setModelsLoading(true);
+    const result = await listAvailableGeminiModels(apiKey);
+    setModelsLoading(false);
+    if (result.ok) {
+      setAvailableModels(result.models);
+      if (result.models.length === 0) {
+        setModelsError("Aucun modèle compatible trouvé pour cette clé.");
+      }
+    } else {
+      setModelsError(
+        result.error === "missing_api_key"
+          ? "Renseigne d'abord ta clé API ci-dessus."
+          : "Impossible de récupérer la liste des modèles. Vérifie ta clé API."
+      );
+    }
+  };
+
+  const handlePickModel = (pickedModel: string) => {
+    setModel(pickedModel);
+    setStoredGeminiModel(pickedModel);
   };
 
   const handleEstimate = async () => {
@@ -190,6 +219,34 @@ export default function DescribePage() {
             <button type="button" onClick={handleSaveSettings} className="btn-secondary w-full">
               Enregistrer
             </button>
+
+            <div className="space-y-2 border-t border-slate-700 pt-3">
+              <button
+                type="button"
+                onClick={handleListModels}
+                className="text-xs text-slate-400 underline"
+                disabled={modelsLoading}
+              >
+                {modelsLoading ? "Recherche…" : "Voir les modèles disponibles pour ma clé"}
+              </button>
+              {modelsError && <p className="text-xs text-red-400">{modelsError}</p>}
+              {availableModels && availableModels.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {availableModels.map((m) => (
+                    <button
+                      key={m}
+                      type="button"
+                      onClick={() => handlePickModel(m)}
+                      className={`rounded-full px-3 py-1 text-xs ${
+                        model === m ? "bg-green-600 text-white" : "bg-slate-700 text-slate-300"
+                      }`}
+                    >
+                      {m}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         )}
       </div>

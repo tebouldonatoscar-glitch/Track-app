@@ -25,6 +25,20 @@ async function mockGeminiError(page: Page, status: number, message: string) {
   );
 }
 
+async function mockListModels(page: Page, models: string[]) {
+  await page.route(
+    (url) => url.hostname === "generativelanguage.googleapis.com" && url.pathname === "/v1beta/models",
+    (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          models: models.map((m) => ({ name: `models/${m}`, supportedGenerationMethods: ["generateContent"] })),
+        }),
+      })
+  );
+}
+
 test.describe("AI meal estimation", () => {
   test("shows the API key setup section when no key is stored", async ({ page }) => {
     await page.goto("/describe");
@@ -107,5 +121,19 @@ test.describe("AI meal estimation", () => {
 
     await page.getByLabel("Description du plat").fill("Une pomme");
     await expect(page.getByRole("button", { name: "Estimer avec l'IA" })).toBeEnabled();
+  });
+
+  test("lists available models for the key and lets the user pick one", async ({ page }) => {
+    await mockListModels(page, ["gemini-1.5-flash", "gemini-1.5-pro"]);
+    await page.goto("/describe");
+
+    await page.getByLabel("Clé API Gemini").fill(FAKE_API_KEY);
+    await page.getByRole("button", { name: "Voir les modèles disponibles pour ma clé" }).click();
+
+    await expect(page.getByRole("button", { name: "gemini-1.5-flash" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "gemini-1.5-pro" })).toBeVisible();
+
+    await page.getByRole("button", { name: "gemini-1.5-pro" }).click();
+    await expect(page.getByLabel("Modèle")).toHaveValue("gemini-1.5-pro");
   });
 });
