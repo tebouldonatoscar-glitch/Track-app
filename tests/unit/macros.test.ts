@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   calculateMacrosForQuantity,
+  convertPerUnitToPer100g,
   hasCompleteNutrientData,
   isValidQuantity,
   proteinCalorieRatio,
@@ -105,5 +106,31 @@ describe("sumMacros", () => {
     const total = sumMacros([]);
     expect(total.energyKcal).toBe(0);
     expect(total.salt).toBe(0);
+  });
+});
+
+describe("convertPerUnitToPer100g", () => {
+  it("scales a per-unit value up to its per-100g equivalent", () => {
+    // 1 egg = 53g, 70 kcal/egg -> ~132.1 kcal/100g
+    expect(convertPerUnitToPer100g(70, 53)).toBeCloseTo(132.08, 1);
+  });
+
+  it("round-trips with calculateMacrosForQuantity for a whole number of units", () => {
+    const perEggKcal = 70;
+    const unitWeightGrams = 53;
+    const per100g = convertPerUnitToPer100g(perEggKcal, unitWeightGrams)!;
+    const nutrients: NutrientsPer100g = { ...fullNutrients, energyKcal: per100g };
+    // 3 eggs -> 3 * unitWeightGrams in grams -> should equal 3 * perEggKcal
+    const macros = calculateMacrosForQuantity(nutrients, unitWeightGrams * 3);
+    expect(macros.energyKcal).toBeCloseTo(perEggKcal * 3, 0);
+  });
+
+  it("returns null for a null input value", () => {
+    expect(convertPerUnitToPer100g(null, 53)).toBeNull();
+  });
+
+  it("returns null for a zero or negative unit weight", () => {
+    expect(convertPerUnitToPer100g(70, 0)).toBeNull();
+    expect(convertPerUnitToPer100g(70, -10)).toBeNull();
   });
 });

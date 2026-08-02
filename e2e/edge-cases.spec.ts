@@ -27,7 +27,7 @@ test.describe("Edge cases", () => {
 
   test("manual add form validates the barcode format", async ({ page }) => {
     await page.goto("/add");
-    await page.getByLabel("Code-barres *").fill("abc");
+    await page.getByLabel("Code-barres (optionnel)").fill("abc");
     await page.getByLabel("Nom du produit *").fill("Produit test");
     await page.getByRole("button", { name: "Enregistrer le produit" }).click();
     await expect(page.getByText(/Code-barres invalide/)).toBeVisible();

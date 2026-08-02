@@ -98,6 +98,8 @@ export function parseOpenFoodFactsProduct(barcode: string, data: OpenFoodFactsRa
     nutrients,
     servingSize: data?.serving_size || null,
     source: "openfoodfacts",
+    unitLabel: null,
+    unitWeightGrams: null,
   };
 }
 

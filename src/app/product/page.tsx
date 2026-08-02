@@ -57,6 +57,7 @@ function ProductPageContent() {
       if (manual) {
         if (!cancelled) {
           setProduct(manual);
+          if (manual.unitWeightGrams) setQuantity(manual.unitWeightGrams);
           setLoading(false);
         }
         return;
@@ -67,6 +68,7 @@ function ProductPageContent() {
 
       if (result.ok) {
         setProduct(result.product);
+        if (result.product.unitWeightGrams) setQuantity(result.product.unitWeightGrams);
       } else {
         setError(result.error);
       }
@@ -193,6 +195,8 @@ function ProductPageContent() {
           const parsed = parseFloat(product.servingSize ?? "");
           if (Number.isFinite(parsed)) setQuantity(parsed);
         }}
+        unitLabel={product.unitLabel}
+        unitWeightGrams={product.unitWeightGrams}
       />
 
       {!validQuantity && (
