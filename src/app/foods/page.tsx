@@ -3,6 +3,16 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { BUILTIN_FOODS, type FoodCategory } from "@/lib/data/genericFoods";
+import { computeHomemadeScore } from "@/lib/scoring/homemadeScore";
+import type { HomemadeScore } from "@/lib/types/product";
+
+const SCORE_COLOR: Record<HomemadeScore["label"], string> = {
+  excellent: "text-green-400",
+  bon: "text-lime-400",
+  moyen: "text-yellow-400",
+  mediocre: "text-orange-400",
+  mauvais: "text-red-400",
+};
 
 const CATEGORY_ORDER: FoodCategory[] = [
   "Fruits",
@@ -62,12 +72,25 @@ export default function FoodsPage() {
         <section key={category} className="space-y-2">
           <h2 className="text-sm font-medium text-slate-400">{category}</h2>
           <div className="grid grid-cols-2 gap-2">
-            {items.map(({ product }) => (
-              <Link key={product.barcode} href={`/product?barcode=${product.barcode}`} className="card">
-                <p className="truncate text-sm font-medium text-slate-200">{product.name}</p>
-                <p className="text-xs text-slate-500">{Math.round(product.nutrients.energyKcal ?? 0)} kcal /100g</p>
-              </Link>
-            ))}
+            {items.map(({ product }) => {
+              const score = computeHomemadeScore(
+                product.nutriScore,
+                product.novaGroup,
+                product.nutrients,
+                product.additivesCount
+              );
+              return (
+                <Link key={product.barcode} href={`/product?barcode=${product.barcode}`} className="card">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="truncate text-sm font-medium text-slate-200">{product.name}</p>
+                    <span className={`shrink-0 text-xs font-bold ${SCORE_COLOR[score.label]}`}>
+                      {score.score}/100
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500">{Math.round(product.nutrients.energyKcal ?? 0)} kcal /100g</p>
+                </Link>
+              );
+            })}
           </div>
         </section>
       ))}
