@@ -1,5 +1,5 @@
 import { openDB, type DBSchema, type IDBPDatabase } from "idb";
-import type { DailyGoals, FavoriteProduct, HistoryEntry, Product } from "@/lib/types/product";
+import type { DailyGoals, FavoriteProduct, HistoryEntry, Product, Recipe } from "@/lib/types/product";
 
 interface NutriScanDB extends DBSchema {
   history: {
@@ -19,10 +19,14 @@ interface NutriScanDB extends DBSchema {
     key: string;
     value: DailyGoals | unknown;
   };
+  recipes: {
+    key: string;
+    value: Recipe;
+  };
 }
 
 const DB_NAME = "nutriscan-db";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 let dbPromise: Promise<IDBPDatabase<NutriScanDB>> | null = null;
 
@@ -45,6 +49,9 @@ function getDb(): Promise<IDBPDatabase<NutriScanDB>> {
         }
         if (!db.objectStoreNames.contains("settings")) {
           db.createObjectStore("settings");
+        }
+        if (!db.objectStoreNames.contains("recipes")) {
+          db.createObjectStore("recipes", { keyPath: "id" });
         }
       },
     });
@@ -143,4 +150,20 @@ export async function getFrequentProducts(limit = 10): Promise<HistoryEntry[]> {
     .sort((a, b) => b.count - a.count)
     .slice(0, limit)
     .map((v) => v.latest);
+}
+
+export async function getAllRecipes(): Promise<Recipe[]> {
+  const db = await getDb();
+  const all = await db.getAll("recipes");
+  return all.sort((a, b) => b.createdAt - a.createdAt);
+}
+
+export async function saveRecipe(recipe: Recipe): Promise<void> {
+  const db = await getDb();
+  await db.put("recipes", recipe);
+}
+
+export async function deleteRecipe(id: string): Promise<void> {
+  const db = await getDb();
+  await db.delete("recipes", id);
 }

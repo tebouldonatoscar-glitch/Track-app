@@ -77,3 +77,20 @@ export interface DailyGoals {
   carbohydrates: number;
   fat: number;
 }
+
+export interface RecipeIngredient {
+  barcode: string;
+  name: string;
+  quantityGrams: number;
+  /** Snapshot of the source product's per-100g nutrients, so the recipe keeps working even if that product changes later. */
+  nutrients: NutrientsPer100g;
+}
+
+export interface Recipe {
+  id: string;
+  name: string;
+  /** Number of servings the whole ingredient list yields, used to compute per-serving macros. */
+  servings: number;
+  ingredients: RecipeIngredient[];
+  createdAt: number;
+}
