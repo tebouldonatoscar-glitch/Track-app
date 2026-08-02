@@ -4,6 +4,7 @@ export type FoodCategory =
   | "Fruits"
   | "Légumes"
   | "Œufs & laitages"
+  | "Viandes & poissons"
   | "Matières grasses & sucres"
   | "Féculents"
   | "Légumineuses & noix";
@@ -102,6 +103,18 @@ const RAW_ENTRIES: RawEntry[] = [
   { slug: "lait-demi-ecreme", name: "Lait demi-écrémé", category: "Œufs & laitages", novaGroup: 1, nutrients: n(46, 3.3, 4.9, 4.9, 1.6, 1, 0, 0.1) },
   { slug: "yaourt-nature", name: "Yaourt nature", category: "Œufs & laitages", novaGroup: 1, nutrients: n(61, 3.5, 4.7, 4.7, 3.3, 2.1, 0, 0.1), unitLabel: "pot", unitWeightGrams: 125 },
   { slug: "fromage-blanc", name: "Fromage blanc", category: "Œufs & laitages", novaGroup: 1, nutrients: n(60, 7.5, 4, 4, 1.2, 0.8, 0, 0.1) },
+
+  // Viandes & poissons
+  { slug: "poulet-blanc-cru", name: "Poulet (blanc, cru)", category: "Viandes & poissons", novaGroup: 1, nutrients: n(110, 23, 0, 0, 1.6, 0.4, 0, 0.18) },
+  { slug: "dinde-cru", name: "Dinde (filet, cru)", category: "Viandes & poissons", novaGroup: 1, nutrients: n(104, 24, 0, 0, 0.7, 0.2, 0, 0.14) },
+  { slug: "viande-hachee-5", name: "Viande hachée de bœuf 5% MG (crue)", category: "Viandes & poissons", novaGroup: 1, nutrients: n(113, 20, 0, 0, 5, 2.1, 0, 0.15) },
+  { slug: "viande-hachee-10", name: "Viande hachée de bœuf 10% MG (crue)", category: "Viandes & poissons", novaGroup: 1, nutrients: n(150, 19, 0, 0, 10, 4.2, 0, 0.15) },
+  { slug: "viande-hachee-20", name: "Viande hachée de bœuf 20% MG (crue)", category: "Viandes & poissons", novaGroup: 1, nutrients: n(230, 17, 0, 0, 20, 8.4, 0, 0.15) },
+  { slug: "porc-filet-cru", name: "Porc (filet, cru)", category: "Viandes & poissons", novaGroup: 1, nutrients: n(143, 21, 0, 0, 6, 2.1, 0, 0.16) },
+  { slug: "saumon-cru", name: "Saumon (cru)", category: "Viandes & poissons", novaGroup: 1, nutrients: n(208, 20, 0, 0, 13, 2.5, 0, 0.1) },
+  { slug: "thon-naturel", name: "Thon au naturel (boîte, égoutté)", category: "Viandes & poissons", novaGroup: 3, nutrients: n(116, 26, 0, 0, 1, 0.3, 0, 0.9) },
+  { slug: "jambon-blanc", name: "Jambon blanc", category: "Viandes & poissons", novaGroup: 3, nutrients: n(107, 20, 0.5, 0.5, 3, 1, 0, 1.8), unitLabel: "tranche", unitWeightGrams: 25 },
+  { slug: "tofu-nature", name: "Tofu nature", category: "Viandes & poissons", novaGroup: 1, nutrients: n(76, 8, 1.9, 0.6, 4.8, 0.7, 1.2, 0.01) },
 
   // Matières grasses & sucres
   { slug: "beurre", name: "Beurre", category: "Matières grasses & sucres", novaGroup: 2, nutrients: n(717, 0.9, 0.1, 0.1, 81, 51, 0, 1.3), unitLabel: "cuillère à soupe", unitWeightGrams: 15 },

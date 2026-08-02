@@ -18,6 +18,7 @@ const CATEGORY_ORDER: FoodCategory[] = [
   "Fruits",
   "Légumes",
   "Œufs & laitages",
+  "Viandes & poissons",
   "Matières grasses & sucres",
   "Féculents",
   "Légumineuses & noix",
