@@ -93,4 +93,13 @@ describe("computeMacroScore", () => {
     expect(result.reasons.some((r) => r.includes("Sel"))).toBe(false);
     expect(result.reasons.some((r) => r.includes("Fibres"))).toBe(true);
   });
+
+  it("rounds nutrient values in reasons instead of showing raw floating-point noise", () => {
+    // 35g sugar over a 330ml drink -> 10.606060606060606g/100ml pre-rounding
+    const repeatingDecimal = (35 * 100) / 330;
+    const result = computeMacroScore({ ...pomme, sugars: repeatingDecimal });
+    const sugarReason = result.reasons.find((r) => r.includes("Sucres"));
+    expect(sugarReason).toBeDefined();
+    expect(sugarReason).not.toMatch(/\d+\.\d{3,}/);
+  });
 });

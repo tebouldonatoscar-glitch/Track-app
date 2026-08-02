@@ -45,10 +45,10 @@ export function computeHomemadeScore(
   if (nutrients.sugars !== null) {
     if (nutrients.sugars > 22.5) {
       score -= 15;
-      reasons.push(`Sucres élevés (${nutrients.sugars}g/100g) : -15`);
+      reasons.push(`Sucres élevés (${roundTo(nutrients.sugars, 1)}g/100g) : -15`);
     } else if (nutrients.sugars > 10) {
       score -= 7;
-      reasons.push(`Sucres modérés (${nutrients.sugars}g/100g) : -7`);
+      reasons.push(`Sucres modérés (${roundTo(nutrients.sugars, 1)}g/100g) : -7`);
     }
   }
 
@@ -62,7 +62,7 @@ export function computeHomemadeScore(
 
   if (nutrients.fiber !== null && nutrients.fiber >= 3) {
     score += 5;
-    reasons.push(`Bonne teneur en fibres (${nutrients.fiber}g/100g) : +5`);
+    reasons.push(`Bonne teneur en fibres (${roundTo(nutrients.fiber, 1)}g/100g) : +5`);
   }
 
   score = Math.max(0, Math.min(100, Math.round(score)));
@@ -75,4 +75,9 @@ export function computeHomemadeScore(
   else label = "mauvais";
 
   return { score, label, reasons };
+}
+
+function roundTo(value: number, decimals: number): number {
+  const factor = 10 ** decimals;
+  return Math.round(value * factor) / factor;
 }

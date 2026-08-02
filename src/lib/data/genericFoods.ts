@@ -5,6 +5,7 @@ export type FoodCategory =
   | "Légumes"
   | "Œufs & laitages"
   | "Viandes & poissons"
+  | "Boissons"
   | "Matières grasses & sucres"
   | "Féculents"
   | "Légumineuses & noix";
@@ -115,6 +116,18 @@ const RAW_ENTRIES: RawEntry[] = [
   { slug: "thon-naturel", name: "Thon au naturel (boîte, égoutté)", category: "Viandes & poissons", novaGroup: 3, nutrients: n(116, 26, 0, 0, 1, 0.3, 0, 0.9) },
   { slug: "jambon-blanc", name: "Jambon blanc", category: "Viandes & poissons", novaGroup: 3, nutrients: n(107, 20, 0.5, 0.5, 3, 1, 0, 1.8), unitLabel: "tranche", unitWeightGrams: 25 },
   { slug: "tofu-nature", name: "Tofu nature", category: "Viandes & poissons", novaGroup: 1, nutrients: n(76, 8, 1.9, 0.6, 4.8, 0.7, 1.2, 0.01) },
+
+  // Boissons (valeurs moyennes pour 100ml ; utilisez "Ajouter une boisson" pour saisir les calories exactes d'une étiquette)
+  { slug: "eau", name: "Eau (plate ou gazeuse)", category: "Boissons", novaGroup: 1, nutrients: n(0, 0, 0, 0, 0, 0, 0, 0) },
+  { slug: "soda-cola", name: "Soda cola", category: "Boissons", novaGroup: 4, nutrients: n(42, 0, 10.6, 10.6, 0, 0, 0, 0.01) },
+  { slug: "soda-cola-zero", name: "Soda cola zéro/light", category: "Boissons", novaGroup: 4, nutrients: n(0.3, 0, 0.1, 0.1, 0, 0, 0, 0.02) },
+  { slug: "jus-orange", name: "Jus d'orange (pur jus)", category: "Boissons", novaGroup: 1, nutrients: n(45, 0.7, 10.4, 8.7, 0.2, 0, 0.2, 0.01) },
+  { slug: "cafe-noir", name: "Café noir (sans sucre)", category: "Boissons", novaGroup: 1, nutrients: n(2, 0.3, 0, 0, 0, 0, 0, 0.002) },
+  { slug: "the-nature", name: "Thé nature (sans sucre)", category: "Boissons", novaGroup: 1, nutrients: n(1, 0, 0.3, 0, 0, 0, 0, 0.003) },
+  { slug: "biere", name: "Bière (5%)", category: "Boissons", novaGroup: 2, nutrients: n(43, 0.5, 3.6, 0, 0, 0, 0, 0.001) },
+  { slug: "vin-rouge", name: "Vin rouge", category: "Boissons", novaGroup: 1, nutrients: n(85, 0.1, 0.3, 0.3, 0, 0, 0, 0.01) },
+  { slug: "boisson-energisante", name: "Boisson énergisante", category: "Boissons", novaGroup: 4, nutrients: n(45, 0, 11, 11, 0, 0, 0, 0.02) },
+  { slug: "lait-chocolate", name: "Lait chocolaté", category: "Boissons", novaGroup: 3, nutrients: n(75, 3.4, 11, 10, 2.3, 1.4, 0.5, 0.1) },
 
   // Matières grasses & sucres
   { slug: "beurre", name: "Beurre", category: "Matières grasses & sucres", novaGroup: 2, nutrients: n(717, 0.9, 0.1, 0.1, 81, 51, 0, 1.3), unitLabel: "cuillère à soupe", unitWeightGrams: 15 },
