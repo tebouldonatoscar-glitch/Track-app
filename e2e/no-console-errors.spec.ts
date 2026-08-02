@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { MOCK_BARCODE, MOCK_OFF_RESPONSE, mockOffProduct } from "./fixtures";
 
-const ROUTES = ["/", "/scan", "/history", "/favorites", "/goals", "/add"];
+const ROUTES = ["/", "/scan", "/history", "/favorites", "/goals", "/add", "/foods", "/describe"];
 
 test.describe("No unexpected console errors", () => {
   for (const route of ROUTES) {

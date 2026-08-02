@@ -7,6 +7,7 @@ import type { Product } from "@/lib/types/product";
 import { fetchProductByBarcode, type FetchProductError } from "@/lib/api/openFoodFacts";
 import { calculateMacrosForQuantity, hasCompleteNutrientData, isValidQuantity } from "@/lib/macros/calculate";
 import { computeHomemadeScore } from "@/lib/scoring/homemadeScore";
+import { findBuiltinFood } from "@/lib/data/genericFoods";
 import {
   addFavorite,
   addHistoryEntry,
@@ -50,6 +51,16 @@ function ProductPageContent() {
       if (!barcode) {
         setError("invalid_barcode");
         setLoading(false);
+        return;
+      }
+
+      const builtin = findBuiltinFood(barcode);
+      if (builtin) {
+        if (!cancelled) {
+          setProduct(builtin);
+          if (builtin.unitWeightGrams) setQuantity(builtin.unitWeightGrams);
+          setLoading(false);
+        }
         return;
       }
 
