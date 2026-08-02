@@ -25,6 +25,10 @@ export interface Product {
   nutrients: NutrientsPer100g;
   servingSize: string | null;
   source: "openfoodfacts" | "manual";
+  /** Label for one discrete unit of this product, e.g. "œuf", "tranche". Null for products only measured by weight. */
+  unitLabel: string | null;
+  /** Average weight in grams of one unit, used to convert a unit count into grams for macro calculations. */
+  unitWeightGrams: number | null;
 }
 
 export interface MacroBreakdown {

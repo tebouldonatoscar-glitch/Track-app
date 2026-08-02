@@ -56,6 +56,16 @@ export function isValidQuantity(quantityGrams: number): boolean {
   return Number.isFinite(quantityGrams) && quantityGrams > 0 && quantityGrams <= 5000;
 }
 
+/**
+ * Converts a nutrient value given "per unit" (e.g. per egg) to its per-100g
+ * equivalent, so unit-based products can still be stored in the canonical
+ * per-100g shape used everywhere else.
+ */
+export function convertPerUnitToPer100g(value: number | null, unitWeightGrams: number): number | null {
+  if (value === null || !Number.isFinite(unitWeightGrams) || unitWeightGrams <= 0) return null;
+  return (value * 100) / unitWeightGrams;
+}
+
 export function sumMacros(entries: MacroBreakdown[]): MacroBreakdown {
   return entries.reduce(
     (acc, m) => ({
