@@ -1,6 +1,12 @@
 import type { NovaGroup, NutriScoreGrade, NutrientsPer100g, Product } from "@/lib/types/product";
 
-export type FoodCategory = "Fruits" | "Légumes" | "Œufs & laitages" | "Féculents" | "Légumineuses & noix";
+export type FoodCategory =
+  | "Fruits"
+  | "Légumes"
+  | "Œufs & laitages"
+  | "Matières grasses & sucres"
+  | "Féculents"
+  | "Légumineuses & noix";
 
 export interface BuiltinFood {
   category: FoodCategory;
@@ -48,6 +54,16 @@ const RAW_ENTRIES: RawEntry[] = [
   { slug: "mangue", name: "Mangue", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(60, 0.8, 15, 14, 0.4, 0.1, 1.6, 0) },
   { slug: "avocat", name: "Avocat", category: "Fruits", nutriScore: "b", novaGroup: 1, nutrients: n(160, 2, 8.5, 0.7, 15, 2.1, 6.7, 0.007), unitLabel: "avocat", unitWeightGrams: 200 },
   { slug: "citron", name: "Citron", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(29, 1.1, 9, 2.5, 0.3, 0, 2.8, 0) },
+  { slug: "peche", name: "Pêche", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(39, 0.9, 10, 8.4, 0.3, 0, 1.5, 0), unitLabel: "pêche", unitWeightGrams: 150 },
+  { slug: "abricot", name: "Abricot", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(48, 1.4, 11, 9.2, 0.4, 0, 2, 0), unitLabel: "abricot", unitWeightGrams: 35 },
+  { slug: "cerise", name: "Cerise", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(63, 1.1, 16, 13, 0.2, 0, 2.1, 0) },
+  { slug: "prune", name: "Prune", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(46, 0.7, 11, 9.9, 0.3, 0, 1.4, 0), unitLabel: "prune", unitWeightGrams: 66 },
+  { slug: "framboise", name: "Framboise", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(52, 1.2, 12, 4.4, 0.7, 0, 6.5, 0) },
+  { slug: "myrtille", name: "Myrtille", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(57, 0.7, 14, 10, 0.3, 0, 2.4, 0) },
+  { slug: "pamplemousse", name: "Pamplemousse", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(42, 0.8, 11, 7, 0.1, 0, 1.6, 0), unitLabel: "pamplemousse", unitWeightGrams: 230 },
+  { slug: "mandarine", name: "Mandarine", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(53, 0.8, 13, 10.6, 0.3, 0, 1.8, 0), unitLabel: "mandarine", unitWeightGrams: 74 },
+  { slug: "figue", name: "Figue", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(74, 0.8, 19, 16, 0.3, 0, 2.9, 0), unitLabel: "figue", unitWeightGrams: 50 },
+  { slug: "grenade", name: "Grenade", category: "Fruits", nutriScore: "a", novaGroup: 1, nutrients: n(83, 1.7, 19, 14, 1.2, 0, 4, 0) },
 
   // Légumes
   { slug: "tomate", name: "Tomate", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(18, 0.9, 3.9, 2.6, 0.2, 0, 1.2, 0.005), unitLabel: "tomate", unitWeightGrams: 123 },
@@ -64,6 +80,21 @@ const RAW_ENTRIES: RawEntry[] = [
   { slug: "champignon", name: "Champignon de Paris", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(22, 3.1, 3.3, 2, 0.3, 0, 1, 0.005) },
   { slug: "haricot-vert", name: "Haricot vert", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(31, 1.8, 7, 3.3, 0.2, 0, 3.4, 0.006) },
   { slug: "aubergine", name: "Aubergine", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(25, 1, 6, 3.5, 0.2, 0, 3, 0.002) },
+  { slug: "chou", name: "Chou", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(25, 1.3, 5.8, 3.2, 0.1, 0, 2.5, 0.018) },
+  { slug: "chou-fleur", name: "Chou-fleur", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(25, 1.9, 5, 1.9, 0.3, 0, 2, 0.03) },
+  { slug: "radis", name: "Radis", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(16, 0.7, 3.4, 1.9, 0.1, 0, 1.6, 0.039) },
+  { slug: "navet", name: "Navet", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(28, 0.9, 6.4, 3.8, 0.1, 0, 1.8, 0.067) },
+  { slug: "betterave", name: "Betterave", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(43, 1.6, 10, 7, 0.2, 0, 2.8, 0.078) },
+  { slug: "celeri", name: "Céleri", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(16, 0.7, 3, 1.8, 0.2, 0, 1.6, 0.08) },
+  { slug: "poireau", name: "Poireau", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(61, 1.5, 14, 3.9, 0.3, 0, 1.8, 0.02) },
+  { slug: "petits-pois", name: "Petits pois", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(81, 5.4, 14, 5.7, 0.4, 0.1, 5.7, 0.005) },
+  { slug: "mais", name: "Maïs", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(86, 3.3, 19, 3.2, 1.4, 0.2, 2.7, 0.015) },
+  { slug: "artichaut", name: "Artichaut", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(47, 3.3, 10.5, 1, 0.2, 0, 5.4, 0.12), unitLabel: "artichaut", unitWeightGrams: 120 },
+  { slug: "endive", name: "Endive", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(17, 0.9, 3.4, 0.3, 0.1, 0, 3, 0.005) },
+  { slug: "fenouil", name: "Fenouil", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(31, 1.2, 7.3, 3.9, 0.2, 0, 3.1, 0.15) },
+  { slug: "patate-douce", name: "Patate douce", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(86, 1.6, 20, 4.2, 0.1, 0, 3, 0.055), unitLabel: "patate douce", unitWeightGrams: 130 },
+  { slug: "asperge", name: "Asperge", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(20, 2.2, 3.9, 1.9, 0.1, 0, 2.1, 0.002) },
+  { slug: "potiron", name: "Potiron / courge", category: "Légumes", nutriScore: "a", novaGroup: 1, nutrients: n(26, 1, 6.5, 2.8, 0.1, 0, 0.5, 0.001) },
 
   // Œufs & laitages
   { slug: "oeuf", name: "Œuf", category: "Œufs & laitages", novaGroup: 1, nutrients: n(143, 12.6, 0.7, 0.4, 9.5, 3.1, 0, 0.29), unitLabel: "œuf", unitWeightGrams: 53 },
@@ -71,7 +102,12 @@ const RAW_ENTRIES: RawEntry[] = [
   { slug: "lait-demi-ecreme", name: "Lait demi-écrémé", category: "Œufs & laitages", novaGroup: 1, nutrients: n(46, 3.3, 4.9, 4.9, 1.6, 1, 0, 0.1) },
   { slug: "yaourt-nature", name: "Yaourt nature", category: "Œufs & laitages", novaGroup: 1, nutrients: n(61, 3.5, 4.7, 4.7, 3.3, 2.1, 0, 0.1), unitLabel: "pot", unitWeightGrams: 125 },
   { slug: "fromage-blanc", name: "Fromage blanc", category: "Œufs & laitages", novaGroup: 1, nutrients: n(60, 7.5, 4, 4, 1.2, 0.8, 0, 0.1) },
-  { slug: "beurre", name: "Beurre", category: "Œufs & laitages", novaGroup: 2, nutrients: n(717, 0.9, 0.1, 0.1, 81, 51, 0, 1.3) },
+
+  // Matières grasses & sucres
+  { slug: "beurre", name: "Beurre", category: "Matières grasses & sucres", novaGroup: 2, nutrients: n(717, 0.9, 0.1, 0.1, 81, 51, 0, 1.3), unitLabel: "cuillère à soupe", unitWeightGrams: 15 },
+  { slug: "huile-olive", name: "Huile d'olive", category: "Matières grasses & sucres", novaGroup: 2, nutrients: n(884, 0, 0, 0, 100, 13.8, 0, 0), unitLabel: "cuillère à soupe", unitWeightGrams: 14 },
+  { slug: "sucre", name: "Sucre", category: "Matières grasses & sucres", novaGroup: 2, nutrients: n(400, 0, 100, 100, 0, 0, 0, 0), unitLabel: "cuillère à café", unitWeightGrams: 4 },
+  { slug: "miel", name: "Miel", category: "Matières grasses & sucres", novaGroup: 2, nutrients: n(304, 0.3, 82, 82, 0, 0, 0.2, 0.007), unitLabel: "cuillère à soupe", unitWeightGrams: 21 },
 
   // Féculents
   { slug: "riz-cru", name: "Riz blanc (cru)", category: "Féculents", novaGroup: 1, nutrients: n(349, 6.7, 78, 0.1, 0.6, 0.1, 1.3, 0.005) },
