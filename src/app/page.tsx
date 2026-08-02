@@ -88,6 +88,8 @@ export default function HomePage() {
       <section className="grid grid-cols-2 gap-3">
         <Link href="/history" className="btn-secondary">📋 Historique</Link>
         <Link href="/favorites" className="btn-secondary">⭐ Favoris</Link>
+        <Link href="/foods" className="btn-secondary">🥕 Aliments courants</Link>
+        <Link href="/describe" className="btn-secondary">🤖 Décrire un plat (IA)</Link>
         <Link href="/add" className="btn-secondary col-span-2">➕ Ajouter un produit (sans code-barres)</Link>
       </section>
     </main>

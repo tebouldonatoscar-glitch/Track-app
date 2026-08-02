@@ -22,13 +22,16 @@ favoris, produits ajoutés manuellement, objectifs) se fait en local via Indexed
 
 ```
 src/
-  app/            pages (App Router) : /, /scan, /product, /add, /history, /favorites, /goals
+  app/            pages (App Router) : /, /scan, /product, /add, /foods, /describe,
+                  /history, /favorites, /goals
   components/     composants UI réutilisables
   lib/
     api/          client Open Food Facts + parsing
+    ai/           estimation de plats via l'API Gemini (client + parsing + redimensionnement photo)
+    data/         base d'aliments courants intégrée (fruits, légumes, œufs, féculents...)
     macros/       calcul des macronutriments (fonctions pures)
     scoring/      score maison (fonctions pures)
-    storage/      IndexedDB (historique, favoris, objectifs) + export CSV
+    storage/      IndexedDB (historique, favoris, objectifs) + réglages IA (localStorage) + export CSV
     types/        types partagés
 e2e/              tests Playwright
 tests/unit/       tests Vitest
@@ -77,8 +80,18 @@ push sur `main` redéploie automatiquement l'app sur `https://tebouldonatoscar-g
   quantité donnée (grammes ou portion)
 - Mise en avant du ratio protéines/calories (usage sportif) et alerte visuelle NOVA 4
   (ultra-transformé)
-- Ajout manuel d'un produit absent d'Open Food Facts
+- Ajout manuel d'un produit absent d'Open Food Facts, avec ou sans code-barres (aliments génériques
+  type œufs/farine dont les valeurs ne dépendent pas de la marque), et saisie à l'unité (ex: "2
+  œufs") plutôt qu'en grammes quand ça a du sens
+- **Base d'aliments courants** intégrée (`/foods`) : fruits, légumes, œufs, féculents et
+  légumineuses avec valeurs nutritionnelles moyennes, sans avoir besoin de les scanner ni de les
+  saisir soi-même
+- **Estimation par IA** (`/describe`) : décrire un plat en texte et/ou joindre une photo pour
+  obtenir une estimation des valeurs nutritionnelles totales, via l'API gratuite de Google Gemini.
+  Nécessite une clé API personnelle (gratuite sur [aistudio.google.com](https://aistudio.google.com/apikey)),
+  stockée uniquement dans le navigateur — jamais transmise ailleurs qu'à l'API Gemini. Estimation
+  approximative, clairement signalée comme telle, moins fiable qu'un scan de code-barres
 - Historique des scans, favoris/produits fréquents, objectifs journaliers avec barres de
   progression, export CSV
 - Gestion des cas limites : produit introuvable, valeurs nutritionnelles manquantes, quantité
-  invalide, absence de réseau
+  invalide, absence de réseau, clé API IA manquante/invalide, quota IA dépassé
