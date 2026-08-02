@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { BUILTIN_FOODS, type FoodCategory } from "@/lib/data/genericFoods";
-import { computeHomemadeScore } from "@/lib/scoring/homemadeScore";
+import { computeMacroScore } from "@/lib/scoring/macroScore";
 import type { HomemadeScore } from "@/lib/types/product";
 
 const SCORE_COLOR: Record<HomemadeScore["label"], string> = {
@@ -73,12 +73,7 @@ export default function FoodsPage() {
           <h2 className="text-sm font-medium text-slate-400">{category}</h2>
           <div className="grid grid-cols-2 gap-2">
             {items.map(({ product }) => {
-              const score = computeHomemadeScore(
-                product.nutriScore,
-                product.novaGroup,
-                product.nutrients,
-                product.additivesCount
-              );
+              const score = computeMacroScore(product.nutrients);
               return (
                 <Link key={product.barcode} href={`/product?barcode=${product.barcode}`} className="card">
                   <div className="flex items-center justify-between gap-2">
