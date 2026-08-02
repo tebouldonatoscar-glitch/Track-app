@@ -20,6 +20,7 @@ const CATEGORY_ORDER: FoodCategory[] = [
   "Légumes",
   "Œufs & laitages",
   "Viandes & poissons",
+  "Boissons",
   "Matières grasses & sucres",
   "Féculents",
   "Légumineuses & noix",
@@ -50,6 +51,9 @@ export default function FoodsPage() {
         Fruits, légumes et autres aliments dont les valeurs nutritionnelles ne dépendent pas de la
         marque. Valeurs moyennes pour 100g.
       </p>
+      <Link href="/add/drink" className="block text-sm text-green-400 underline">
+        🥤 Une boisson avec des calories différentes ? Saisissez celles de l&apos;étiquette →
+      </Link>
 
       <input
         type="search"

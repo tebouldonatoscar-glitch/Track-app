@@ -22,35 +22,35 @@ export function computeMacroScore(nutrients: NutrientsPer100g): HomemadeScore {
   const sugarPenalty = Math.min(50, sugars * 0.5);
   if (sugarPenalty >= 0.5) {
     score -= sugarPenalty;
-    reasons.push(`Sucres (${sugars}g/100g) : -${sugarPenalty.toFixed(1)}`);
+    reasons.push(`Sucres (${sugars.toFixed(1)}g/100g) : -${sugarPenalty.toFixed(1)}`);
   }
 
   const saturatedFat = nutrients.saturatedFat ?? 0;
   const saturatedFatPenalty = Math.min(25, saturatedFat * 1.5);
   if (saturatedFatPenalty >= 0.5) {
     score -= saturatedFatPenalty;
-    reasons.push(`Acides gras saturés (${saturatedFat}g/100g) : -${saturatedFatPenalty.toFixed(1)}`);
+    reasons.push(`Acides gras saturés (${saturatedFat.toFixed(1)}g/100g) : -${saturatedFatPenalty.toFixed(1)}`);
   }
 
   const salt = nutrients.salt ?? 0;
   const saltPenalty = Math.min(15, salt * 10);
   if (saltPenalty >= 0.5) {
     score -= saltPenalty;
-    reasons.push(`Sel (${salt}g/100g) : -${saltPenalty.toFixed(1)}`);
+    reasons.push(`Sel (${salt.toFixed(2)}g/100g) : -${saltPenalty.toFixed(1)}`);
   }
 
   const fiber = nutrients.fiber ?? 0;
   const fiberBonus = Math.min(10, fiber * 1.2);
   if (fiberBonus >= 0.5) {
     score += fiberBonus;
-    reasons.push(`Fibres (${fiber}g/100g) : +${fiberBonus.toFixed(1)}`);
+    reasons.push(`Fibres (${fiber.toFixed(1)}g/100g) : +${fiberBonus.toFixed(1)}`);
   }
 
   const proteins = nutrients.proteins ?? 0;
   const proteinBonus = Math.min(10, proteins * 0.5);
   if (proteinBonus >= 0.5) {
     score += proteinBonus;
-    reasons.push(`Protéines (${proteins}g/100g) : +${proteinBonus.toFixed(1)}`);
+    reasons.push(`Protéines (${proteins.toFixed(1)}g/100g) : +${proteinBonus.toFixed(1)}`);
   }
 
   score = Math.max(0, Math.min(100, Math.round(score)));

@@ -92,7 +92,8 @@ export default function HomePage() {
         <Link href="/recipes" className="btn-secondary">🍲 Mes recettes</Link>
         <Link href="/foods" className="btn-secondary">🥕 Aliments courants</Link>
         <Link href="/describe" className="btn-secondary">🤖 Décrire un plat (IA)</Link>
-        <Link href="/add" className="btn-secondary col-span-2">➕ Ajouter un produit (sans code-barres)</Link>
+        <Link href="/add/drink" className="btn-secondary">🥤 Ajouter une boisson</Link>
+        <Link href="/add" className="btn-secondary">➕ Ajouter un produit</Link>
       </section>
     </main>
   );
