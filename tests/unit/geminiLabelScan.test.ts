@@ -62,6 +62,18 @@ describe("scanNutritionLabelWithGemini", () => {
     expect(result).toEqual({ ok: false, error: "invalid_key" });
   });
 
+  it("maps a region-blocked response to unsupported_region instead of invalid_key, even on a 403", async () => {
+    const body = JSON.stringify({ error: { message: "User location is not supported for the API use." } });
+    const fetchMock = vi.fn().mockResolvedValue({ ok: false, status: 403, text: async () => body });
+    const result = await scanNutritionLabelWithGemini({
+      apiKey: "test-key",
+      model: "gemini-2.0-flash",
+      imageBase64: "ZmFrZQ==",
+      fetchImpl: fetchMock as unknown as typeof fetch,
+    });
+    expect(result).toEqual({ ok: false, error: "unsupported_region", message: body });
+  });
+
   it("returns network_error when fetch throws", async () => {
     const fetchMock = vi.fn().mockRejectedValue(new Error("offline"));
     const result = await scanNutritionLabelWithGemini({

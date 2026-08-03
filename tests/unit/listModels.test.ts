@@ -38,6 +38,13 @@ describe("listAvailableGeminiModels", () => {
     expect(result).toEqual({ ok: false, error: "invalid_key", message: "forbidden" });
   });
 
+  it("maps a region-blocked response to unsupported_region instead of invalid_key, regardless of status code", async () => {
+    const body = JSON.stringify({ error: { message: "User location is not supported for the API use." } });
+    const fetchMock = vi.fn().mockResolvedValue({ ok: false, status: 400, text: async () => body });
+    const result = await listAvailableGeminiModels("test-key", fetchMock as unknown as typeof fetch);
+    expect(result).toEqual({ ok: false, error: "unsupported_region", message: body });
+  });
+
   it("returns network_error when fetch throws", async () => {
     const fetchMock = vi.fn().mockRejectedValue(new Error("offline"));
     const result = await listAvailableGeminiModels("test-key", fetchMock as unknown as typeof fetch);

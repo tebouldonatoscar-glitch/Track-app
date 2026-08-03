@@ -17,6 +17,7 @@ export type GeminiCallErrorCode =
   | "network_error"
   | "rate_limited"
   | "invalid_response"
+  | "unsupported_region"
   | "api_error";
 
 export type GeminiCallResult = { ok: true; text: string } | { ok: false; error: GeminiCallErrorCode; message?: string };
@@ -67,6 +68,13 @@ export async function callGeminiGenerateContent(params: CallGeminiParams): Promi
       message = await response.text();
     } catch {
       message = undefined;
+    }
+
+    // Google blocks the free Gemini API from some countries/regions (notably the
+    // EU/UK/Switzerland at times) regardless of status code - retrying never helps,
+    // so this needs its own message rather than falling into the generic api_error bucket.
+    if (/location is not supported/i.test(message ?? "")) {
+      return { ok: false, error: "unsupported_region", message };
     }
 
     if (response.status === 403) return { ok: false, error: "invalid_key", message };

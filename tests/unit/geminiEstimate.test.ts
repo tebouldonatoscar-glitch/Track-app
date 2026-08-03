@@ -109,6 +109,18 @@ describe("estimateMealWithGemini", () => {
     expect(result).toEqual({ ok: false, error: "invalid_key", message: body });
   });
 
+  it("maps a region-blocked response to unsupported_region instead of invalid_key", async () => {
+    const body = JSON.stringify({ error: { message: "User location is not supported for the API use." } });
+    const fetchMock = vi.fn().mockResolvedValue({ ok: false, status: 400, text: async () => body });
+    const result = await estimateMealWithGemini({
+      apiKey: "test-key",
+      model: "gemini-2.0-flash",
+      description: "Une pomme",
+      fetchImpl: fetchMock as unknown as typeof fetch,
+    });
+    expect(result).toEqual({ ok: false, error: "unsupported_region", message: body });
+  });
+
   it("maps a 400 response NOT about the API key to api_error (e.g. an unknown model name)", async () => {
     const body = JSON.stringify({ error: { message: "models/does-not-exist is not found for API version v1beta" } });
     const fetchMock = vi.fn().mockResolvedValue({ ok: false, status: 400, text: async () => body });

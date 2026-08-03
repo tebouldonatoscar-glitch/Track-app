@@ -24,6 +24,8 @@ const ERROR_MESSAGES: Record<GeminiEstimateErrorCode, string> = {
   network_error: "Pas de connexion internet, ou service injoignable.",
   rate_limited: "Limite d'utilisation gratuite atteinte pour le moment. Réessaie dans quelques minutes.",
   invalid_response: "Réponse de l'IA illisible. Réessaie, ou reformule ta description.",
+  unsupported_region:
+    "L'API Gemini gratuite n'est pas disponible depuis ta région (restriction de Google, souvent le cas en UE/Suisse/UK) — réessayer ne changera rien, ce n'est pas un bug de l'app.",
   api_error: "Erreur du service IA. Réessaie plus tard.",
 };
 
@@ -88,11 +90,15 @@ export default function DescribePage() {
         setModelsError("Aucun modèle compatible trouvé pour cette clé.");
       }
     } else {
-      setModelsError(
-        result.error === "missing_api_key"
-          ? "Renseigne d'abord ta clé API ci-dessus."
-          : "Impossible de récupérer la liste des modèles. Vérifie ta clé API."
-      );
+      if (result.error === "missing_api_key") {
+        setModelsError("Renseigne d'abord ta clé API ci-dessus.");
+      } else if (result.error === "unsupported_region") {
+        setModelsError(
+          "L'API Gemini gratuite n'est pas disponible depuis ta région (restriction de Google, souvent le cas en UE/Suisse/UK)."
+        );
+      } else {
+        setModelsError("Impossible de récupérer la liste des modèles. Vérifie ta clé API.");
+      }
     }
   };
 

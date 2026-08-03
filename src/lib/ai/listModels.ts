@@ -1,6 +1,10 @@
 export type ListModelsResult =
   | { ok: true; models: string[] }
-  | { ok: false; error: "missing_api_key" | "invalid_key" | "network_error" | "api_error"; message?: string };
+  | {
+      ok: false;
+      error: "missing_api_key" | "invalid_key" | "network_error" | "unsupported_region" | "api_error";
+      message?: string;
+    };
 
 interface GeminiModel {
   name?: string;
@@ -37,6 +41,11 @@ export async function listAvailableGeminiModels(
       message = await response.text();
     } catch {
       message = undefined;
+    }
+    // Same region block as callGemini.ts: Google rejects the free API from some
+    // countries regardless of status code, and retrying/changing the key won't help.
+    if (/location is not supported/i.test(message ?? "")) {
+      return { ok: false, error: "unsupported_region", message };
     }
     if (response.status === 400 || response.status === 403) {
       return { ok: false, error: "invalid_key", message };

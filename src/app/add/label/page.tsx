@@ -26,6 +26,8 @@ const ERROR_MESSAGES: Record<GeminiEstimateErrorCode, string> = {
   network_error: "Pas de connexion internet, ou service injoignable.",
   rate_limited: "Limite d'utilisation gratuite atteinte pour le moment. Réessaie dans quelques minutes.",
   invalid_response: "Réponse de l'IA illisible. Réessaie avec une photo plus nette de l'étiquette.",
+  unsupported_region:
+    "L'API Gemini gratuite n'est pas disponible depuis ta région (restriction de Google, souvent le cas en UE/Suisse/UK) — réessayer ne changera rien, ce n'est pas un bug de l'app.",
   api_error: "Erreur du service IA. Réessaie plus tard.",
 };
 

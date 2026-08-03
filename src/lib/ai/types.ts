@@ -13,6 +13,7 @@ export type GeminiEstimateErrorCode =
   | "network_error"
   | "rate_limited"
   | "invalid_response"
+  | "unsupported_region"
   | "api_error";
 
 export type GeminiEstimateResult =
