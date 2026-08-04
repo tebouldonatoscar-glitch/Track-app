@@ -18,6 +18,7 @@ import { saveManualProduct } from "@/lib/storage/db";
 import { generateManualProductId } from "@/lib/storage/generateId";
 import { parseNumberField } from "@/lib/utils/parseNumberField";
 import NumField from "@/components/NumField";
+import PhotoCapture from "@/components/PhotoCapture";
 import type { GeminiEstimateErrorCode } from "@/lib/ai/types";
 
 const ERROR_MESSAGES: Record<GeminiEstimateErrorCode, string> = {
@@ -74,7 +75,6 @@ function AddLabelForm() {
 
   const apiKeyId = useId();
   const modelId = useId();
-  const photoId = useId();
   const barcodeId = useId();
   const nameId = useId();
 
@@ -245,20 +245,13 @@ function AddLabelForm() {
       </div>
 
       <div>
-        <label htmlFor={photoId} className="mb-1 block text-sm text-slate-300">
-          Photo de l&apos;étiquette
-        </label>
-        <input
-          id={photoId}
-          type="file"
-          accept="image/*"
-          capture="environment"
-          onChange={(e) => {
-            setPhotoFile(e.target.files?.[0] ?? null);
+        <p className="mb-1 block text-sm text-slate-300">Photo de l&apos;étiquette</p>
+        <PhotoCapture
+          onCapture={(file) => {
+            setPhotoFile(file);
             setHasScanned(false);
             setScanError(null);
           }}
-          className="input-field"
         />
         {photoPreviewUrl && (
           <div className="mt-2 flex items-center gap-3">
