@@ -63,6 +63,7 @@ function AddLabelForm() {
 
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string | null>(null);
+  const [previewLoadFailed, setPreviewLoadFailed] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [scanError, setScanError] = useState<string | null>(null);
   const [confidenceNote, setConfidenceNote] = useState<string | null>(null);
@@ -86,6 +87,7 @@ function AddLabelForm() {
   }, []);
 
   useEffect(() => {
+    setPreviewLoadFailed(false);
     if (!photoFile) {
       setPhotoPreviewUrl(null);
       return;
@@ -255,8 +257,17 @@ function AddLabelForm() {
         />
         {photoPreviewUrl && (
           <div className="mt-2 flex items-center gap-3">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={photoPreviewUrl} alt="Aperçu de l'étiquette" className="h-20 w-20 rounded-xl object-cover" />
+            {previewLoadFailed ? (
+              <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-slate-700 text-2xl">🖼️</div>
+            ) : (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={photoPreviewUrl}
+                alt="Aperçu de l'étiquette"
+                className="h-20 w-20 rounded-xl object-cover"
+                onError={() => setPreviewLoadFailed(true)}
+              />
+            )}
             <button
               type="button"
               onClick={() => {
