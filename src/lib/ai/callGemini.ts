@@ -17,7 +17,8 @@ export type GeminiCallErrorCode =
   | "network_error"
   | "rate_limited"
   | "invalid_response"
-  | "api_error";
+  | "api_error"
+  | "timeout";
 
 export type GeminiCallResult = { ok: true; text: string } | { ok: false; error: GeminiCallErrorCode; message?: string };
 
@@ -28,6 +29,13 @@ export interface CallGeminiParams {
   responseSchema: object;
   fetchImpl?: typeof fetch;
 }
+
+// A photo (especially one sent as-is because the browser couldn't decode it
+// for resizing, see resizeImage.ts) can be several MB of base64 on a slow
+// mobile connection. Without a timeout, a stalled request leaves the UI
+// stuck on "Estimation en cours..." forever with no way for the user to
+// know something went wrong.
+const REQUEST_TIMEOUT_MS = 45_000;
 
 /**
  * Shared low-level Gemini generateContent call: builds the request, maps
@@ -44,6 +52,9 @@ export async function callGeminiGenerateContent(params: CallGeminiParams): Promi
     model
   )}:generateContent?key=${encodeURIComponent(apiKey)}`;
 
+  const abortController = new AbortController();
+  const timeoutId = setTimeout(() => abortController.abort(), REQUEST_TIMEOUT_MS);
+
   let response: Response;
   try {
     response = await fetchImpl(url, {
@@ -56,9 +67,13 @@ export async function callGeminiGenerateContent(params: CallGeminiParams): Promi
           responseSchema,
         },
       }),
+      signal: abortController.signal,
     });
-  } catch {
+  } catch (err) {
+    if (err instanceof Error && err.name === "AbortError") return { ok: false, error: "timeout" };
     return { ok: false, error: "network_error" };
+  } finally {
+    clearTimeout(timeoutId);
   }
 
   if (!response.ok) {

@@ -28,6 +28,7 @@ const ERROR_MESSAGES: Record<GeminiEstimateErrorCode, string> = {
   rate_limited: "Limite d'utilisation gratuite atteinte pour le moment. Réessaie dans quelques minutes.",
   invalid_response: "Réponse de l'IA illisible. Réessaie avec une photo plus nette de l'étiquette.",
   api_error: "Erreur du service IA. Réessaie plus tard.",
+  timeout: "La requête a mis trop de temps à répondre (photo volumineuse ou connexion lente). Réessaie avec une meilleure connexion, ou une photo plus légère.",
 };
 
 interface NutrientFieldsState {

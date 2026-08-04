@@ -13,7 +13,8 @@ export type GeminiEstimateErrorCode =
   | "network_error"
   | "rate_limited"
   | "invalid_response"
-  | "api_error";
+  | "api_error"
+  | "timeout";
 
 export type GeminiEstimateResult =
   | { ok: true; estimate: AiMealEstimate }

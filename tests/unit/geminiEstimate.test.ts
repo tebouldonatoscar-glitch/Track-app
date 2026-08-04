@@ -132,6 +132,31 @@ describe("estimateMealWithGemini", () => {
     expect(result).toEqual({ ok: false, error: "network_error" });
   });
 
+  it("returns timeout instead of hanging forever when the request is aborted", async () => {
+    vi.useFakeTimers();
+    try {
+      const fetchMock = vi.fn().mockImplementation((_url: string, options: { signal?: AbortSignal }) => {
+        return new Promise((_resolve, reject) => {
+          options.signal?.addEventListener("abort", () => {
+            const err = new Error("The operation was aborted");
+            err.name = "AbortError";
+            reject(err);
+          });
+        });
+      });
+      const resultPromise = estimateMealWithGemini({
+        apiKey: "test-key",
+        model: "gemini-2.0-flash",
+        description: "Une pomme",
+        fetchImpl: fetchMock as unknown as typeof fetch,
+      });
+      await vi.advanceTimersByTimeAsync(60_000);
+      expect(await resultPromise).toEqual({ ok: false, error: "timeout" });
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it("returns invalid_response when the candidate text is missing", async () => {
     const fetchMock = vi.fn().mockResolvedValue({ ok: true, status: 200, json: async () => ({}) });
     const result = await estimateMealWithGemini({
