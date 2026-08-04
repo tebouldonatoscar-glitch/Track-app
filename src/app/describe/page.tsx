@@ -17,6 +17,7 @@ import {
 import { generateManualProductId } from "@/lib/storage/generateId";
 import { addHistoryEntry } from "@/lib/storage/db";
 import MacroBreakdownCard from "@/components/MacroBreakdownCard";
+import PhotoCapture from "@/components/PhotoCapture";
 
 const ERROR_MESSAGES: Record<GeminiEstimateErrorCode, string> = {
   missing_api_key: "Renseigne ta clé API Gemini ci-dessus avant d'estimer.",
@@ -50,7 +51,6 @@ export default function DescribePage() {
   const apiKeyId = useId();
   const modelId = useId();
   const descriptionId = useId();
-  const photoId = useId();
   const dishNameId = useId();
 
   useEffect(() => {
@@ -266,17 +266,8 @@ export default function DescribePage() {
       </div>
 
       <div>
-        <label htmlFor={photoId} className="mb-1 block text-sm text-slate-300">
-          Photo (optionnelle)
-        </label>
-        <input
-          id={photoId}
-          type="file"
-          accept="image/*"
-          capture="environment"
-          onChange={(e) => setPhotoFile(e.target.files?.[0] ?? null)}
-          className="input-field"
-        />
+        <p className="mb-1 block text-sm text-slate-300">Photo (optionnelle)</p>
+        <PhotoCapture onCapture={setPhotoFile} />
         {photoPreviewUrl && (
           <div className="mt-2 flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
