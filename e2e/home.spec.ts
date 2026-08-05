@@ -16,7 +16,7 @@ test.describe("Home dashboard", () => {
     await page.goto("/");
     const nav = page.locator("nav");
     for (const [label, url] of [
-      ["Historique", "/history/"],
+      ["Tendances", "/trends/"],
       ["Favoris", "/favorites/"],
       ["Objectifs", "/goals/"],
     ] as const) {

@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IconClock, IconHome, IconCamera, IconStar, IconTarget } from "@/components/icons";
+import { IconChart, IconHome, IconCamera, IconStar, IconTarget } from "@/components/icons";
 
 const ITEMS = [
   { href: "/", label: "Accueil", Icon: IconHome },
   { href: "/scan", label: "Scanner", Icon: IconCamera },
-  { href: "/history", label: "Historique", Icon: IconClock },
+  { href: "/trends", label: "Tendances", Icon: IconChart },
   { href: "/favorites", label: "Favoris", Icon: IconStar },
   { href: "/goals", label: "Objectifs", Icon: IconTarget },
 ];
