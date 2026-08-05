@@ -16,7 +16,7 @@ export default function HomemadeScoreCard({ score }: { score: HomemadeScore }) {
           className={`progress-fill ${SCORE_BAR_COLOR[score.label]}`}
           style={{
             width: `${score.score}%`,
-            boxShadow: `0 0 8px 0 ${hexToRgba(SCORE_GLOW_COLOR[score.label], 0.6)}`,
+            boxShadow: `0 0 4px 0 ${hexToRgba(SCORE_GLOW_COLOR[score.label], 0.35)}`,
           }}
         />
       </div>

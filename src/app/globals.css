@@ -45,12 +45,12 @@ body {
     background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.25),
-      0 8px 20px -6px rgba(48, 209, 88, 0.45);
+      0 6px 14px -6px rgba(48, 209, 88, 0.3);
   }
   .btn-primary:active {
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      0 4px 10px -4px rgba(48, 209, 88, 0.4);
+      0 3px 8px -4px rgba(48, 209, 88, 0.25);
   }
 
   .btn-secondary {
@@ -76,7 +76,7 @@ body {
 
   .nav-link-active {
     @apply text-green-400;
-    filter: drop-shadow(0 0 5px rgba(48, 209, 88, 0.6));
+    filter: drop-shadow(0 0 3px rgba(48, 209, 88, 0.4));
   }
 
   /* ---------- iOS-style page chrome ---------- */
@@ -125,7 +125,7 @@ body {
     background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 60%);
     box-shadow:
       inset 0 -1px 1px rgba(0, 0, 0, 0.15),
-      0 0 14px 0 var(--glow, transparent);
+      0 0 7px 0 var(--glow, transparent);
   }
 
   .chevron {
@@ -151,7 +151,7 @@ body {
 
   .pill-active {
     @apply bg-green-600 font-semibold text-black;
-    box-shadow: 0 0 12px 0 rgba(48, 209, 88, 0.5);
+    box-shadow: 0 0 7px 0 rgba(48, 209, 88, 0.3);
   }
 
   .pill-inactive {
@@ -189,7 +189,7 @@ body {
     background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 60%);
     box-shadow:
       inset 0 -1px 1px rgba(0, 0, 0, 0.15),
-      0 0 14px 0 var(--glow, transparent);
+      0 0 7px 0 var(--glow, transparent);
   }
 }
 

@@ -53,7 +53,7 @@ export default function TrendsChart({ days, goal, getValue, mode, ariaLabel }: T
                 height={value > 0 ? Math.max(barHeight, 2) : 0}
                 rx={2}
                 fill={barColor}
-                style={value > 0 ? { filter: `drop-shadow(0 0 4px ${barColor}99)` } : undefined}
+                style={value > 0 ? { filter: `drop-shadow(0 0 2px ${barColor}66)` } : undefined}
               />
               <text
                 x={i * slotWidth + slotWidth / 2}

@@ -30,7 +30,7 @@ export default function NutriScoreBadge({ grade, size = "md" }: { grade: NutriSc
   return (
     <div
       className={`flex ${dims} items-center justify-center rounded-full font-bold ${COLORS[grade]}`}
-      style={glow ? { boxShadow: `0 0 10px 0 ${hexToRgba(glow, 0.55)}` } : undefined}
+      style={glow ? { boxShadow: `0 0 5px 0 ${hexToRgba(glow, 0.35)}` } : undefined}
       title={`Nutri-Score ${label}`}
       aria-label={`Nutri-Score ${label}`}
     >

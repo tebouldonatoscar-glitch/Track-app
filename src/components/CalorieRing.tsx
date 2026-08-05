@@ -30,7 +30,7 @@ export default function CalorieRing({ value, goal, size = 104 }: CalorieRingProp
           strokeDashoffset={offset}
           style={{
             transition: "stroke-dashoffset 0.5s ease",
-            filter: `drop-shadow(0 0 5px ${activeColor}99)`,
+            filter: `drop-shadow(0 0 3px ${activeColor}66)`,
           }}
         />
       </svg>
