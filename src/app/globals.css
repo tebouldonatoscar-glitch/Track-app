@@ -16,14 +16,17 @@ body {
 }
 
 @layer components {
+  /* Grouped-table-view surface: iOS distinguishes a card from the page by a
+     faint tint difference, not a drawn border or shadow. */
   .card {
-    @apply rounded-2xl border border-slate-700/60 bg-slate-800 p-4 shadow-sm;
+    @apply rounded-2xl bg-slate-800 p-4;
   }
 
-  /* Neon bg reads brightest with dark text, not white - same treatment
-     as a real neon sign. */
+  /* systemGreen is high-luminance (green channel dominates perceived
+     brightness), so black text clears contrast by a wide margin where
+     white would not - same call iOS makes on tinted-green fills. */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-green-600 px-4 py-3 font-bold text-black transition active:scale-95 hover:bg-green-500 disabled:opacity-50 disabled:active:scale-100;
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl bg-green-600 px-4 py-3 font-semibold text-black transition active:scale-95 hover:bg-green-500 disabled:opacity-50 disabled:active:scale-100;
   }
 
   .btn-secondary {
@@ -72,15 +75,19 @@ body {
 
   /* Grouped iOS list: rows are direct children, separated by hairlines. */
   .list-group {
-    @apply divide-y divide-slate-700/60 overflow-hidden rounded-2xl border border-slate-700/60 bg-slate-800;
+    @apply divide-y divide-white/[0.06] overflow-hidden rounded-2xl bg-slate-800;
   }
 
   .list-row {
-    @apply flex items-center gap-3 px-4 py-3;
+    @apply flex min-h-[44px] items-center gap-3 px-4 py-2.5;
   }
 
+  /* Settings-app icon convention: a solid-fill rounded square (not a
+     translucent circle) so each row reads as its own category color at a
+     glance, the way Wi-Fi/Bluetooth/etc. do in Réglages. Color comes from
+     an inline style per call site; this just sets the shared shape. */
   .row-icon {
-    @apply flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-slate-700;
+    @apply flex h-[29px] w-[29px] flex-shrink-0 items-center justify-center rounded-[8px] bg-slate-600;
   }
 
   .chevron {
@@ -121,19 +128,11 @@ body {
   }
 
   .quick-tile {
-    @apply flex flex-col items-center gap-2 rounded-2xl border border-slate-700/60 bg-slate-800 px-2 py-3.5 text-center transition active:scale-95;
+    @apply flex flex-col items-center gap-2 rounded-2xl bg-slate-800 px-2 py-3.5 text-center transition active:scale-95;
   }
 
   .quick-tile-icon {
-    @apply flex h-10 w-10 items-center justify-center rounded-full;
-  }
-
-  .glow-primary {
-    box-shadow: 0 6px 28px -4px rgba(18, 232, 112, 0.65);
-  }
-
-  .glow-ring {
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 10px 34px -10px rgba(18, 232, 112, 0.45);
+    @apply flex h-9 w-9 items-center justify-center rounded-[9px];
   }
 }
 

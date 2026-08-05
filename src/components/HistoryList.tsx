@@ -38,10 +38,10 @@ export default function HistoryList({ entries, onDelete, limitDays }: HistoryLis
               <div key={entry.id} className="list-row">
                 {entry.imageUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={entry.imageUrl} alt={entry.productName} className="h-11 w-11 flex-shrink-0 rounded-full bg-white object-contain" />
+                  <img src={entry.imageUrl} alt={entry.productName} className="h-[29px] w-[29px] flex-shrink-0 rounded-[8px] bg-white object-contain" />
                 ) : (
                   <div className="row-icon">
-                    <IconMeal className="h-[18px] w-[18px] text-slate-400" aria-hidden />
+                    <IconMeal className="h-4 w-4 text-slate-300" aria-hidden />
                   </div>
                 )}
                 <div className="min-w-0 flex-1">

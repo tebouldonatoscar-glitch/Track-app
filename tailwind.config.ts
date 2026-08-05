@@ -27,14 +27,15 @@ const config: Config = {
           900: "#131314",
           950: "#000000",
         },
-        // Neon accent, standing in for the default Tailwind green - reads
-        // as electric on the true-black background instead of muted.
+        // Apple's actual systemGreen (dark mode), standing in for the
+        // default Tailwind green - reads as native iOS rather than a
+        // custom brand color.
         green: {
-          100: "#D8FFE9",
-          400: "#39FF8A",
-          500: "#12E870",
-          600: "#00D96A",
-          700: "#00A855",
+          100: "#D8FFE3",
+          400: "#30D158",
+          500: "#30D158",
+          600: "#32D74B",
+          700: "#248A3D",
         },
       },
     },

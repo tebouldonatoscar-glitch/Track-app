@@ -19,17 +19,19 @@ import {
   IconStar,
 } from "@/components/icons";
 
+// Apple's system color palette (dark mode) - each row/tile gets one, the
+// way Wi-Fi/Bluetooth/etc. do in Réglages, instead of a single flat tint.
 const QUICK_ACTIONS = [
-  { href: "/describe", label: "Décrire un plat (IA)", Icon: IconSparkles, tint: "rgba(0,194,255,0.2)", color: "#00C2FF" },
-  { href: "/foods", label: "Aliments courants", Icon: IconMeal, tint: "rgba(57,255,138,0.2)", color: "#39FF8A" },
-  { href: "/add/drink", label: "Ajouter une boisson", Icon: IconDrink, tint: "rgba(255,179,0,0.2)", color: "#FFB300" },
-  { href: "/add", label: "Ajouter un produit", Icon: IconPlus, tint: "rgba(255,77,109,0.2)", color: "#FF4D6D" },
+  { href: "/describe", label: "Décrire un plat (IA)", Icon: IconSparkles, color: "#BF5AF2" },
+  { href: "/foods", label: "Aliments courants", Icon: IconMeal, color: "#30D158" },
+  { href: "/add/drink", label: "Ajouter une boisson", Icon: IconDrink, color: "#64D2FF" },
+  { href: "/add", label: "Ajouter un produit", Icon: IconPlus, color: "#FF9F0A" },
 ];
 
 const EXPLORE_LINKS = [
-  { href: "/history", label: "Historique", Icon: IconClock },
-  { href: "/favorites", label: "Favoris", Icon: IconStar },
-  { href: "/recipes", label: "Mes recettes", Icon: IconBook },
+  { href: "/history", label: "Historique", Icon: IconClock, color: "#0A84FF" },
+  { href: "/favorites", label: "Favoris", Icon: IconStar, color: "#FFD60A" },
+  { href: "/recipes", label: "Mes recettes", Icon: IconBook, color: "#5E5CE6" },
 ];
 
 export default function HomePage() {
@@ -67,7 +69,7 @@ export default function HomePage() {
     <main className="pb-6">
       <PageHeader title="Accueil" />
       <div className="space-y-5 px-4 pt-3">
-        <Link href="/scan" className="btn-primary glow-primary w-full text-[15px]">
+        <Link href="/scan" className="btn-primary w-full text-[15px]">
           <IconCamera className="h-5 w-5" aria-hidden />
           Scanner un produit
         </Link>
@@ -75,12 +77,12 @@ export default function HomePage() {
         {!loading && goals && (
           <section>
             <h2 className="section-label">Aujourd&apos;hui</h2>
-            <Link href="/goals" className="card glow-ring flex items-center gap-4">
+            <Link href="/goals" className="card flex items-center gap-4">
               <CalorieRing value={totals.energyKcal} goal={goals.energyKcal} />
               <dl className="flex-1 space-y-2">
-                <MacroLegendRow color="#00C2FF" label="Protéines" value={totals.proteins} goal={goals.proteins} />
-                <MacroLegendRow color="#FFB300" label="Glucides" value={totals.carbohydrates} goal={goals.carbohydrates} />
-                <MacroLegendRow color="#FF4D6D" label="Lipides" value={totals.fat} goal={goals.fat} />
+                <MacroLegendRow color="#0A84FF" label="Protéines" value={totals.proteins} goal={goals.proteins} />
+                <MacroLegendRow color="#FF9F0A" label="Glucides" value={totals.carbohydrates} goal={goals.carbohydrates} />
+                <MacroLegendRow color="#FF375F" label="Lipides" value={totals.fat} goal={goals.fat} />
               </dl>
               <IconChevronRight className="chevron h-3.5 w-2 self-center" aria-hidden />
             </Link>
@@ -90,10 +92,10 @@ export default function HomePage() {
         <section>
           <h2 className="section-label">Actions rapides</h2>
           <div className="grid grid-cols-4 gap-2">
-            {QUICK_ACTIONS.map(({ href, label, Icon, tint, color }) => (
+            {QUICK_ACTIONS.map(({ href, label, Icon, color }) => (
               <Link key={href} href={href} className="quick-tile" title={label}>
-                <span className="quick-tile-icon" style={{ background: tint }}>
-                  <Icon className="h-5 w-5" style={{ color }} aria-hidden />
+                <span className="quick-tile-icon" style={{ background: color }}>
+                  <Icon className="h-[18px] w-[18px] text-white" aria-hidden />
                 </span>
                 <span className="text-[11px] font-medium leading-tight text-slate-300">{label}</span>
               </Link>
@@ -109,10 +111,10 @@ export default function HomePage() {
                 <Link key={entry.barcode} href={`/product?barcode=${entry.barcode}`} className="list-row">
                   {entry.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={entry.imageUrl} alt={entry.productName} className="h-11 w-11 flex-shrink-0 rounded-full bg-white object-contain" />
+                    <img src={entry.imageUrl} alt={entry.productName} className="h-[29px] w-[29px] flex-shrink-0 rounded-[8px] bg-white object-contain" />
                   ) : (
                     <div className="row-icon">
-                      <IconMeal className="h-[18px] w-[18px] text-slate-400" aria-hidden />
+                      <IconMeal className="h-4 w-4 text-slate-300" aria-hidden />
                     </div>
                   )}
                   <div className="min-w-0 flex-1">
@@ -129,10 +131,10 @@ export default function HomePage() {
         <section>
           <h2 className="section-label">Explorer</h2>
           <div className="list-group">
-            {EXPLORE_LINKS.map(({ href, label, Icon }) => (
+            {EXPLORE_LINKS.map(({ href, label, Icon, color }) => (
               <Link key={href} href={href} className="list-row">
-                <span className="row-icon">
-                  <Icon className="h-[18px] w-[18px] text-green-400" aria-hidden />
+                <span className="row-icon" style={{ background: color }}>
+                  <Icon className="h-4 w-4 text-white" aria-hidden />
                 </span>
                 <span className="flex-1 text-[15px] text-slate-100">{label}</span>
                 <IconChevronRight className="chevron h-3.5 w-2" aria-hidden />
@@ -148,7 +150,7 @@ export default function HomePage() {
 function MacroLegendRow({ color, label, value, goal }: { color: string; label: string; value: number; goal: number }) {
   const percent = goal > 0 ? Math.min(100, Math.round((value / goal) * 100)) : 0;
   const over = goal > 0 && value > goal;
-  const barColor = over ? "#FF3B5C" : color;
+  const barColor = over ? "#FF453A" : color;
 
   return (
     <div className="space-y-1">
