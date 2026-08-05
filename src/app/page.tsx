@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { DailyGoals, HistoryEntry } from "@/lib/types/product";
 import { getDailyGoals, getFrequentProducts, getHistoryForDate } from "@/lib/storage/db";
 import { sumMacros } from "@/lib/macros/calculate";
 import CalorieRing from "@/components/CalorieRing";
 import PageHeader from "@/components/PageHeader";
+import PullToRefresh from "@/components/PullToRefresh";
 import {
   IconBook,
   IconCamera,
@@ -40,34 +41,27 @@ export default function HomePage() {
   const [frequent, setFrequent] = useState<HistoryEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    let cancelled = false;
-    async function load() {
-      try {
-        const [g, entries, freq] = await Promise.all([
-          getDailyGoals(),
-          getHistoryForDate(new Date()),
-          getFrequentProducts(6),
-        ]);
-        if (cancelled) return;
-        setGoals(g);
-        setTodayEntries(entries);
-        setFrequent(freq);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-    load();
-    return () => {
-      cancelled = true;
-    };
+  const load = useCallback(async () => {
+    const [g, entries, freq] = await Promise.all([
+      getDailyGoals(),
+      getHistoryForDate(new Date()),
+      getFrequentProducts(6),
+    ]);
+    setGoals(g);
+    setTodayEntries(entries);
+    setFrequent(freq);
   }, []);
+
+  useEffect(() => {
+    load().finally(() => setLoading(false));
+  }, [load]);
 
   const totals = sumMacros(todayEntries.map((e) => e.macros));
 
   return (
     <main className="pb-6">
       <PageHeader title="Accueil" />
+      <PullToRefresh onRefresh={load}>
       <div className="space-y-5 px-4 pt-3">
         <Link href="/scan" className="btn-primary w-full text-[15px]">
           <IconCamera className="h-5 w-5" aria-hidden />
@@ -143,6 +137,7 @@ export default function HomePage() {
           </div>
         </section>
       </div>
+      </PullToRefresh>
     </main>
   );
 }

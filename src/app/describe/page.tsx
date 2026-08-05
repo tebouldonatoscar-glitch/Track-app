@@ -15,6 +15,7 @@ import {
 } from "@/lib/storage/aiSettings";
 import { generateManualProductId } from "@/lib/storage/generateId";
 import { addHistoryEntry } from "@/lib/storage/db";
+import { hapticSuccess } from "@/lib/haptics";
 import MacroBreakdownCard from "@/components/MacroBreakdownCard";
 import PhotoCapture from "@/components/PhotoCapture";
 import PageHeader from "@/components/PageHeader";
@@ -155,6 +156,7 @@ export default function DescribePage() {
       novaGroup: null,
       timestamp: Date.now(),
     });
+    hapticSuccess();
     setSavedMessage("Ajouté à l'historique !");
     setTimeout(() => {
       setSavedMessage(null);

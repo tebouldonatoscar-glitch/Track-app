@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconChart, IconHome, IconCamera, IconStar, IconTarget } from "@/components/icons";
+import { hapticTap } from "@/lib/haptics";
 
 const ITEMS = [
   { href: "/", label: "Accueil", Icon: IconHome },
@@ -20,8 +21,8 @@ export default function BottomNav() {
       {ITEMS.map(({ href, label, Icon }) => {
         const active = pathname === href;
         return (
-          <Link key={href} href={href} className={`nav-link ${active ? "nav-link-active" : ""}`}>
-            <Icon className="h-6 w-6" strokeWidth={active ? 2 : 1.7} aria-hidden />
+          <Link key={href} href={href} onClick={hapticTap} className={`nav-link ${active ? "nav-link-active" : ""}`}>
+            <Icon className="h-6 w-6" strokeWidth={2} aria-hidden />
             <span>{label}</span>
           </Link>
         );
