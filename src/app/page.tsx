@@ -8,6 +8,7 @@ import { sumMacros } from "@/lib/macros/calculate";
 import CalorieRing from "@/components/CalorieRing";
 import PageHeader from "@/components/PageHeader";
 import PullToRefresh from "@/components/PullToRefresh";
+import { hexToRgba } from "@/lib/color";
 import {
   IconBook,
   IconCamera,
@@ -88,7 +89,10 @@ export default function HomePage() {
           <div className="grid grid-cols-4 gap-2">
             {QUICK_ACTIONS.map(({ href, label, Icon, color }) => (
               <Link key={href} href={href} className="quick-tile" title={label}>
-                <span className="quick-tile-icon" style={{ backgroundColor: color }}>
+                <span
+                  className="quick-tile-icon"
+                  style={{ backgroundColor: color, "--glow": hexToRgba(color, 0.55) } as React.CSSProperties}
+                >
                   <Icon className="h-[18px] w-[18px] text-white" aria-hidden />
                 </span>
                 <span className="text-[11px] font-medium leading-tight text-slate-300">{label}</span>
@@ -127,7 +131,10 @@ export default function HomePage() {
           <div className="list-group">
             {EXPLORE_LINKS.map(({ href, label, Icon, color }) => (
               <Link key={href} href={href} className="list-row">
-                <span className="row-icon" style={{ backgroundColor: color }}>
+                <span
+                  className="row-icon"
+                  style={{ backgroundColor: color, "--glow": hexToRgba(color, 0.5) } as React.CSSProperties}
+                >
                   <Icon className="h-4 w-4 text-white" aria-hidden />
                 </span>
                 <span className="flex-1 text-[15px] text-slate-100">{label}</span>
@@ -150,7 +157,11 @@ function MacroLegendRow({ color, label, value, goal }: { color: string; label: s
   return (
     <div className="space-y-1">
       <div className="flex items-center gap-2">
-        <span className="h-2 w-2 flex-shrink-0 rounded-full" style={{ background: barColor }} aria-hidden />
+        <span
+          className="h-2 w-2 flex-shrink-0 rounded-full"
+          style={{ background: barColor, boxShadow: `0 0 6px 0 ${hexToRgba(barColor, 0.7)}` }}
+          aria-hidden
+        />
         <span className="text-[13px] tabular-nums">
           <b className="font-bold text-slate-100">{Math.round(value)}</b>
           <span className="text-slate-500">/{Math.round(goal)}g</span>{" "}
@@ -160,7 +171,7 @@ function MacroLegendRow({ color, label, value, goal }: { color: string; label: s
       <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-700">
         <div
           className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${percent}%`, background: barColor }}
+          style={{ width: `${percent}%`, background: barColor, boxShadow: `0 0 8px 0 ${hexToRgba(barColor, 0.65)}` }}
         />
       </div>
     </div>

@@ -1,5 +1,6 @@
 import type { HomemadeScore } from "@/lib/types/product";
-import { SCORE_BAR_COLOR, SCORE_LABEL_COLOR, SCORE_LABEL_TEXT } from "@/lib/scoring/scoreDisplay";
+import { SCORE_BAR_COLOR, SCORE_GLOW_COLOR, SCORE_LABEL_COLOR, SCORE_LABEL_TEXT } from "@/lib/scoring/scoreDisplay";
+import { hexToRgba } from "@/lib/color";
 
 export default function HomemadeScoreCard({ score }: { score: HomemadeScore }) {
   return (
@@ -13,7 +14,10 @@ export default function HomemadeScoreCard({ score }: { score: HomemadeScore }) {
       <div className="progress-track">
         <div
           className={`progress-fill ${SCORE_BAR_COLOR[score.label]}`}
-          style={{ width: `${score.score}%` }}
+          style={{
+            width: `${score.score}%`,
+            boxShadow: `0 0 8px 0 ${hexToRgba(SCORE_GLOW_COLOR[score.label], 0.6)}`,
+          }}
         />
       </div>
       <ul className="mt-2 space-y-1 text-xs text-slate-400">

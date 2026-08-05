@@ -28,7 +28,10 @@ export default function CalorieRing({ value, goal, size = 104 }: CalorieRingProp
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
-          style={{ transition: "stroke-dashoffset 0.5s ease" }}
+          style={{
+            transition: "stroke-dashoffset 0.5s ease",
+            filter: `drop-shadow(0 0 5px ${activeColor}99)`,
+          }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
