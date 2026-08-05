@@ -28,7 +28,7 @@ export default function TrendsChart({ days, goalKcal }: TrendsChartProps) {
         aria-label="Calories consommées par jour"
       >
         {goalKcal > 0 && (
-          <line x1={0} x2={chartWidth} y1={goalY} y2={goalY} stroke="#FFB300" strokeDasharray="4 3" strokeWidth={1} />
+          <line x1={0} x2={chartWidth} y1={goalY} y2={goalY} stroke="#FF9F0A" strokeDasharray="4 3" strokeWidth={1} />
         )}
         {days.map((day, i) => {
           const barHeight = (day.macros.energyKcal / maxValue) * PLOT_HEIGHT;
@@ -41,7 +41,7 @@ export default function TrendsChart({ days, goalKcal }: TrendsChartProps) {
                 width={barWidth}
                 height={day.macros.energyKcal > 0 ? Math.max(barHeight, 2) : 0}
                 rx={2}
-                fill={over ? "#FFB300" : "#12E870"}
+                fill={over ? "#FF453A" : "#30D158"}
               />
               <text
                 x={i * slotWidth + slotWidth / 2}

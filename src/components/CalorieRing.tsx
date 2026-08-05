@@ -12,7 +12,7 @@ export default function CalorieRing({ value, goal, size = 104 }: CalorieRingProp
   const offset = circumference * (1 - percent);
   const over = goal > 0 && value > goal;
 
-  const activeColor = over ? "#FFB300" : "#12E870";
+  const activeColor = over ? "#FF453A" : "#30D158";
 
   return (
     <div className="relative flex-shrink-0" style={{ width: size, height: size }}>
@@ -28,10 +28,7 @@ export default function CalorieRing({ value, goal, size = 104 }: CalorieRingProp
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
-          style={{
-            transition: "stroke-dashoffset 0.5s ease",
-            filter: `drop-shadow(0 0 6px ${activeColor}99)`,
-          }}
+          style={{ transition: "stroke-dashoffset 0.5s ease" }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
