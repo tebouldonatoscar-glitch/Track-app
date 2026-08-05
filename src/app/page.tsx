@@ -20,10 +20,10 @@ import {
 } from "@/components/icons";
 
 const QUICK_ACTIONS = [
-  { href: "/describe", label: "Décrire un plat (IA)", Icon: IconSparkles, tint: "rgba(61,125,224,0.18)", color: "#6FA6FF" },
-  { href: "/foods", label: "Aliments courants", Icon: IconMeal, tint: "rgba(47,158,88,0.18)", color: "#4FCB77" },
-  { href: "/add/drink", label: "Ajouter une boisson", Icon: IconDrink, tint: "rgba(217,138,43,0.18)", color: "#F0B75B" },
-  { href: "/add", label: "Ajouter un produit", Icon: IconPlus, tint: "rgba(211,102,92,0.18)", color: "#FF8B7E" },
+  { href: "/describe", label: "Décrire un plat (IA)", Icon: IconSparkles, tint: "rgba(0,194,255,0.2)", color: "#00C2FF" },
+  { href: "/foods", label: "Aliments courants", Icon: IconMeal, tint: "rgba(57,255,138,0.2)", color: "#39FF8A" },
+  { href: "/add/drink", label: "Ajouter une boisson", Icon: IconDrink, tint: "rgba(255,179,0,0.2)", color: "#FFB300" },
+  { href: "/add", label: "Ajouter un produit", Icon: IconPlus, tint: "rgba(255,77,109,0.2)", color: "#FF4D6D" },
 ];
 
 const EXPLORE_LINKS = [
@@ -78,9 +78,9 @@ export default function HomePage() {
             <Link href="/goals" className="card glow-ring flex items-center gap-4">
               <CalorieRing value={totals.energyKcal} goal={goals.energyKcal} />
               <dl className="flex-1 space-y-2">
-                <MacroLegendRow color="#3D7DE0" label="Protéines" value={totals.proteins} goal={goals.proteins} />
-                <MacroLegendRow color="#D98A2B" label="Glucides" value={totals.carbohydrates} goal={goals.carbohydrates} />
-                <MacroLegendRow color="#D3665C" label="Lipides" value={totals.fat} goal={goals.fat} />
+                <MacroLegendRow color="#00C2FF" label="Protéines" value={totals.proteins} goal={goals.proteins} />
+                <MacroLegendRow color="#FFB300" label="Glucides" value={totals.carbohydrates} goal={goals.carbohydrates} />
+                <MacroLegendRow color="#FF4D6D" label="Lipides" value={totals.fat} goal={goals.fat} />
               </dl>
               <IconChevronRight className="chevron h-3.5 w-2 self-center" aria-hidden />
             </Link>
@@ -148,7 +148,7 @@ export default function HomePage() {
 function MacroLegendRow({ color, label, value, goal }: { color: string; label: string; value: number; goal: number }) {
   const percent = goal > 0 ? Math.min(100, Math.round((value / goal) * 100)) : 0;
   const over = goal > 0 && value > goal;
-  const barColor = over ? "#F0B75B" : color;
+  const barColor = over ? "#FF3B5C" : color;
 
   return (
     <div className="space-y-1">
