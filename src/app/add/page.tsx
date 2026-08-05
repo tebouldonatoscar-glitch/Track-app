@@ -79,27 +79,21 @@ function AddProductForm() {
 
     const useUnitEntry = countedInUnits && nutritionPerUnit && parsedUnitWeight !== null;
 
-    const nutrients = useUnitEntry
-      ? {
-          energyKcal: convertPerUnitToPer100g(parseNumberField(energy), parsedUnitWeight!),
-          proteins: convertPerUnitToPer100g(parseNumberField(proteins), parsedUnitWeight!),
-          carbohydrates: convertPerUnitToPer100g(parseNumberField(carbs), parsedUnitWeight!),
-          sugars: convertPerUnitToPer100g(parseNumberField(sugars), parsedUnitWeight!),
-          fat: convertPerUnitToPer100g(parseNumberField(fat), parsedUnitWeight!),
-          saturatedFat: convertPerUnitToPer100g(parseNumberField(saturatedFat), parsedUnitWeight!),
-          fiber: convertPerUnitToPer100g(parseNumberField(fiber), parsedUnitWeight!),
-          salt: convertPerUnitToPer100g(parseNumberField(salt), parsedUnitWeight!),
-        }
-      : {
-          energyKcal: parseNumberField(energy),
-          proteins: parseNumberField(proteins),
-          carbohydrates: parseNumberField(carbs),
-          sugars: parseNumberField(sugars),
-          fat: parseNumberField(fat),
-          saturatedFat: parseNumberField(saturatedFat),
-          fiber: parseNumberField(fiber),
-          salt: parseNumberField(salt),
-        };
+    const parseNutrientField = (raw: string): number | null => {
+      const parsed = parseNumberField(raw);
+      return useUnitEntry ? convertPerUnitToPer100g(parsed, parsedUnitWeight!) : parsed;
+    };
+
+    const nutrients = {
+      energyKcal: parseNutrientField(energy),
+      proteins: parseNutrientField(proteins),
+      carbohydrates: parseNutrientField(carbs),
+      sugars: parseNutrientField(sugars),
+      fat: parseNutrientField(fat),
+      saturatedFat: parseNutrientField(saturatedFat),
+      fiber: parseNutrientField(fiber),
+      salt: parseNutrientField(salt),
+    };
 
     const product: Product = {
       barcode: barcode.trim() || generateManualProductId(name),

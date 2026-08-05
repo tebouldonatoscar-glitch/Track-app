@@ -170,38 +170,3 @@ export function IconMeal(props: IconProps) {
   );
 }
 
-export function IconYogurt(props: IconProps) {
-  return (
-    <svg {...base(props)}>
-      <path d="M8 3h8l1 5a5 5 0 0 1-10 0l1-5z" />
-      <path d="M12 13v3M9 20h6" />
-    </svg>
-  );
-}
-
-export function IconSearch(props: IconProps) {
-  return (
-    <svg {...base(props)}>
-      <circle cx="10.5" cy="10.5" r="6.5" />
-      <path d="M20 20l-4.3-4.3" />
-    </svg>
-  );
-}
-
-export function IconCheck(props: IconProps) {
-  return (
-    <svg {...base(props)}>
-      <path d="M20 6L9 17l-5-5" />
-    </svg>
-  );
-}
-
-export function IconRefresh(props: IconProps) {
-  return (
-    <svg {...base(props)}>
-      <path d="M4 4v5h5" />
-      <path d="M20 20v-5h-5" />
-      <path d="M5.5 9A7 7 0 0 1 19 8.5M18.5 15a7 7 0 0 1-13.5.5" />
-    </svg>
-  );
-}

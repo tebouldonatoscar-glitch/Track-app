@@ -1,21 +1,5 @@
 import type { HistoryEntry, NovaGroup, NutriScoreGrade } from "@/lib/types/product";
-
-const EXPECTED_HEADERS = [
-  "date",
-  "heure",
-  "produit",
-  "marque",
-  "quantite_g",
-  "calories_kcal",
-  "proteines_g",
-  "glucides_g",
-  "sucres_g",
-  "lipides_g",
-  "fibres_g",
-  "sel_g",
-  "nutriscore",
-  "nova",
-];
+import { HEADERS as EXPECTED_HEADERS } from "@/lib/storage/csvExport";
 
 const NUTRI_SCORE_GRADES: NutriScoreGrade[] = ["a", "b", "c", "d", "e", "unknown"];
 
