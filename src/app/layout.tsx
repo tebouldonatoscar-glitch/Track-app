@@ -1,4 +1,9 @@
 import type { Metadata, Viewport } from "next";
+// Self-hosted variable font, used as the fallback for platforms where
+// -apple-system doesn't resolve to real SF Pro (Android, desktop). Real
+// iPhones/Macs already render actual SF Pro via -apple-system below, so
+// this only kicks in where that's unavailable.
+import "@fontsource-variable/inter/wght.css";
 import "./globals.css";
 import BottomNav from "@/components/BottomNav";
 import ServiceWorkerRegister from "@/components/ServiceWorkerRegister";

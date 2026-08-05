@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Recipe } from "@/lib/types/product";
 import { addHistoryEntry, deleteRecipe, getAllRecipes } from "@/lib/storage/db";
+import { hapticSuccess } from "@/lib/haptics";
 import {
   computeRecipeMacrosForServings,
   computeRecipePerServingMacros,
@@ -39,6 +40,7 @@ function RecipeCard({ recipe, onDelete }: { recipe: Recipe; onDelete: (id: strin
       novaGroup: null,
       timestamp: Date.now(),
     });
+    hapticSuccess();
     setSavedMessage("Ajouté à l'historique !");
     setTimeout(() => setSavedMessage(null), 2500);
   };

@@ -22,6 +22,7 @@ import HomemadeScoreCard from "@/components/HomemadeScoreCard";
 import UltraProcessedAlert from "@/components/UltraProcessedAlert";
 import PageHeader from "@/components/PageHeader";
 import { IconCamera, IconStar, IconStarFilled } from "@/components/icons";
+import { hapticSuccess, hapticTap } from "@/lib/haptics";
 
 const ERROR_MESSAGES: Record<FetchProductError, string> = {
   not_found: "Produit introuvable dans Open Food Facts.",
@@ -101,6 +102,7 @@ function ProductPageContent() {
 
   const toggleFavorite = useCallback(async () => {
     if (!product) return;
+    hapticTap();
     if (favorite) {
       await removeFavorite(product.barcode);
       setFavorite(false);
@@ -133,6 +135,7 @@ function ProductPageContent() {
       novaGroup: product.novaGroup,
       timestamp: Date.now(),
     });
+    hapticSuccess();
     setSavedMessage("Ajouté à l'historique !");
     setTimeout(() => setSavedMessage(null), 2500);
   }, [product, quantity]);
