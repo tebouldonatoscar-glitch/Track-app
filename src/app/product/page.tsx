@@ -46,6 +46,11 @@ function ProductPageContent() {
   useEffect(() => {
     let cancelled = false;
 
+    function applyProduct(p: Product) {
+      setProduct(p);
+      if (p.unitWeightGrams) setQuantity(p.unitWeightGrams);
+    }
+
     async function load() {
       setLoading(true);
       setError(null);
@@ -60,8 +65,7 @@ function ProductPageContent() {
       const builtin = findBuiltinFood(barcode);
       if (builtin) {
         if (!cancelled) {
-          setProduct(builtin);
-          if (builtin.unitWeightGrams) setQuantity(builtin.unitWeightGrams);
+          applyProduct(builtin);
           setLoading(false);
         }
         return;
@@ -70,8 +74,7 @@ function ProductPageContent() {
       const manual = await getManualProduct(barcode);
       if (manual) {
         if (!cancelled) {
-          setProduct(manual);
-          if (manual.unitWeightGrams) setQuantity(manual.unitWeightGrams);
+          applyProduct(manual);
           setLoading(false);
         }
         return;
@@ -81,8 +84,7 @@ function ProductPageContent() {
       if (cancelled) return;
 
       if (result.ok) {
-        setProduct(result.product);
-        if (result.product.unitWeightGrams) setQuantity(result.product.unitWeightGrams);
+        applyProduct(result.product);
       } else {
         setError(result.error);
       }

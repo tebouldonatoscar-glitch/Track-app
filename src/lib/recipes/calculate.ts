@@ -2,6 +2,33 @@ import type { MacroBreakdown, NutrientsPer100g, Recipe } from "@/lib/types/produ
 import { calculateMacrosForQuantity, sumMacros } from "@/lib/macros/calculate";
 import { roundTo } from "@/lib/utils/round";
 
+/** Rounds each macro field to the precision used throughout the app: whole kcal, 1dp for macros, 2dp for salt. */
+function roundMacros(macros: MacroBreakdown): MacroBreakdown {
+  return {
+    energyKcal: roundTo(macros.energyKcal, 0),
+    proteins: roundTo(macros.proteins, 1),
+    carbohydrates: roundTo(macros.carbohydrates, 1),
+    sugars: roundTo(macros.sugars, 1),
+    fat: roundTo(macros.fat, 1),
+    saturatedFat: roundTo(macros.saturatedFat, 1),
+    fiber: roundTo(macros.fiber, 1),
+    salt: roundTo(macros.salt, 2),
+  };
+}
+
+function scaleMacros(macros: MacroBreakdown, factor: number): MacroBreakdown {
+  return roundMacros({
+    energyKcal: macros.energyKcal * factor,
+    proteins: macros.proteins * factor,
+    carbohydrates: macros.carbohydrates * factor,
+    sugars: macros.sugars * factor,
+    fat: macros.fat * factor,
+    saturatedFat: macros.saturatedFat * factor,
+    fiber: macros.fiber * factor,
+    salt: macros.salt * factor,
+  });
+}
+
 export function recipeTotalWeightGrams(recipe: Recipe): number {
   return recipe.ingredients.reduce((sum, ingredient) => sum + ingredient.quantityGrams, 0);
 }
@@ -10,32 +37,14 @@ export function computeRecipeTotalMacros(recipe: Recipe): MacroBreakdown {
   const total = sumMacros(
     recipe.ingredients.map((ingredient) => calculateMacrosForQuantity(ingredient.nutrients, ingredient.quantityGrams))
   );
-  return {
-    energyKcal: roundTo(total.energyKcal, 0),
-    proteins: roundTo(total.proteins, 1),
-    carbohydrates: roundTo(total.carbohydrates, 1),
-    sugars: roundTo(total.sugars, 1),
-    fat: roundTo(total.fat, 1),
-    saturatedFat: roundTo(total.saturatedFat, 1),
-    fiber: roundTo(total.fiber, 1),
-    salt: roundTo(total.salt, 2),
-  };
+  return roundMacros(total);
 }
 
 /** Macros for an arbitrary number of servings logged from this recipe (e.g. 2 servings eaten). */
 export function computeRecipeMacrosForServings(recipe: Recipe, servings: number): MacroBreakdown {
   const total = computeRecipeTotalMacros(recipe);
   const factor = recipe.servings > 0 ? servings / recipe.servings : 0;
-  return {
-    energyKcal: roundTo(total.energyKcal * factor, 0),
-    proteins: roundTo(total.proteins * factor, 1),
-    carbohydrates: roundTo(total.carbohydrates * factor, 1),
-    sugars: roundTo(total.sugars * factor, 1),
-    fat: roundTo(total.fat * factor, 1),
-    saturatedFat: roundTo(total.saturatedFat * factor, 1),
-    fiber: roundTo(total.fiber * factor, 1),
-    salt: roundTo(total.salt * factor, 2),
-  };
+  return scaleMacros(total, factor);
 }
 
 export function computeRecipePerServingMacros(recipe: Recipe): MacroBreakdown {
@@ -50,14 +59,5 @@ export function recipeNutrientsPer100g(recipe: Recipe): NutrientsPer100g {
   }
   const total = computeRecipeTotalMacros(recipe);
   const factor = 100 / weight;
-  return {
-    energyKcal: roundTo(total.energyKcal * factor, 0),
-    proteins: roundTo(total.proteins * factor, 1),
-    carbohydrates: roundTo(total.carbohydrates * factor, 1),
-    sugars: roundTo(total.sugars * factor, 1),
-    fat: roundTo(total.fat * factor, 1),
-    saturatedFat: roundTo(total.saturatedFat * factor, 1),
-    fiber: roundTo(total.fiber * factor, 1),
-    salt: roundTo(total.salt * factor, 2),
-  };
+  return scaleMacros(total, factor);
 }

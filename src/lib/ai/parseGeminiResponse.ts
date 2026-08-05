@@ -1,22 +1,10 @@
 import type { AiMealEstimate } from "./types";
+import { parseNutrientFields, type RawNutrientFields } from "./parseNutrientFields";
 
-interface RawGeminiEstimateJson {
+interface RawGeminiEstimateJson extends RawNutrientFields {
   dishName?: unknown;
   estimatedTotalWeightGrams?: unknown;
-  energyKcal?: unknown;
-  proteins?: unknown;
-  carbohydrates?: unknown;
-  sugars?: unknown;
-  fat?: unknown;
-  saturatedFat?: unknown;
-  fiber?: unknown;
-  salt?: unknown;
   confidenceNote?: unknown;
-}
-
-function toNonNegativeNumber(value: unknown): number {
-  const num = typeof value === "number" ? value : Number(value);
-  return Number.isFinite(num) && num >= 0 ? num : 0;
 }
 
 /**
@@ -55,16 +43,7 @@ export function parseGeminiEstimateJson(jsonText: string): AiMealEstimate | null
   return {
     dishName,
     estimatedTotalWeightGrams: weight,
-    macros: {
-      energyKcal: toNonNegativeNumber(raw.energyKcal),
-      proteins: toNonNegativeNumber(raw.proteins),
-      carbohydrates: toNonNegativeNumber(raw.carbohydrates),
-      sugars: toNonNegativeNumber(raw.sugars),
-      fat: toNonNegativeNumber(raw.fat),
-      saturatedFat: toNonNegativeNumber(raw.saturatedFat),
-      fiber: toNonNegativeNumber(raw.fiber),
-      salt: toNonNegativeNumber(raw.salt),
-    },
+    macros: parseNutrientFields(raw),
     confidenceNote,
   };
 }

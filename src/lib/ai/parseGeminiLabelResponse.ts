@@ -1,21 +1,9 @@
 import type { AiLabelScan } from "./types";
+import { parseNutrientFields, type RawNutrientFields } from "./parseNutrientFields";
 
-interface RawGeminiLabelJson {
+interface RawGeminiLabelJson extends RawNutrientFields {
   productName?: unknown;
-  energyKcal?: unknown;
-  proteins?: unknown;
-  carbohydrates?: unknown;
-  sugars?: unknown;
-  fat?: unknown;
-  saturatedFat?: unknown;
-  fiber?: unknown;
-  salt?: unknown;
   confidenceNote?: unknown;
-}
-
-function toNonNegativeNumber(value: unknown): number {
-  const num = typeof value === "number" ? value : Number(value);
-  return Number.isFinite(num) && num >= 0 ? num : 0;
 }
 
 /**
@@ -45,16 +33,7 @@ export function parseGeminiLabelJson(jsonText: string): AiLabelScan | null {
 
   return {
     productName,
-    nutrients: {
-      energyKcal: toNonNegativeNumber(raw.energyKcal),
-      proteins: toNonNegativeNumber(raw.proteins),
-      carbohydrates: toNonNegativeNumber(raw.carbohydrates),
-      sugars: toNonNegativeNumber(raw.sugars),
-      fat: toNonNegativeNumber(raw.fat),
-      saturatedFat: toNonNegativeNumber(raw.saturatedFat),
-      fiber: toNonNegativeNumber(raw.fiber),
-      salt: toNonNegativeNumber(raw.salt),
-    },
+    nutrients: parseNutrientFields(raw),
     confidenceNote,
   };
 }

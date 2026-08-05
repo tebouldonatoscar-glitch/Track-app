@@ -1,6 +1,7 @@
 import type { HistoryEntry } from "@/lib/types/product";
 
-const HEADERS = [
+/** The exact column order/names this app's CSV export and import share - keep both in sync. */
+export const HEADERS = [
   "date",
   "heure",
   "produit",
