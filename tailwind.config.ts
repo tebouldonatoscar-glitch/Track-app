@@ -27,13 +27,14 @@ const config: Config = {
           900: "#131314",
           950: "#000000",
         },
-        // Herb green accent, standing in for the default Tailwind green.
+        // Neon accent, standing in for the default Tailwind green - reads
+        // as electric on the true-black background instead of muted.
         green: {
-          100: "#DFF5E6",
-          400: "#4FCB77",
-          500: "#3DB868",
-          600: "#2F9E58",
-          700: "#23823F",
+          100: "#D8FFE9",
+          400: "#39FF8A",
+          500: "#12E870",
+          600: "#00D96A",
+          700: "#00A855",
         },
       },
     },

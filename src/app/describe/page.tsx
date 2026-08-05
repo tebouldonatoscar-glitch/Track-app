@@ -240,7 +240,7 @@ export default function DescribePage() {
                       type="button"
                       onClick={() => handlePickModel(m)}
                       className={`rounded-full px-3 py-1 text-xs ${
-                        model === m ? "bg-green-600 text-white" : "bg-slate-700 text-slate-300"
+                        model === m ? "bg-green-600 text-black" : "bg-slate-700 text-slate-300"
                       }`}
                     >
                       {m}

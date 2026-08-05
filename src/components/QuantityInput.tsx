@@ -66,7 +66,7 @@ export default function QuantityInput({
               type="button"
               onClick={() => handleUnitCountChange(preset)}
               className={`rounded-full px-3 py-1 text-sm ${
-                unitCount === preset ? "bg-green-600 text-white" : "bg-slate-700 text-slate-300"
+                unitCount === preset ? "bg-green-600 text-black" : "bg-slate-700 text-slate-300"
               }`}
             >
               {preset} {unitLabel}
@@ -108,7 +108,7 @@ export default function QuantityInput({
             type="button"
             onClick={() => onChange(preset)}
             className={`rounded-full px-3 py-1 text-sm ${
-              value === preset ? "bg-green-600 text-white" : "bg-slate-700 text-slate-300"
+              value === preset ? "bg-green-600 text-black" : "bg-slate-700 text-slate-300"
             }`}
           >
             {preset}g

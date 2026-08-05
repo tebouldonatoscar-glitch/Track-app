@@ -12,6 +12,8 @@ export default function CalorieRing({ value, goal, size = 104 }: CalorieRingProp
   const offset = circumference * (1 - percent);
   const over = goal > 0 && value > goal;
 
+  const activeColor = over ? "#FFB300" : "#12E870";
+
   return (
     <div className="relative flex-shrink-0" style={{ width: size, height: size }}>
       <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size} className="-rotate-90">
@@ -21,12 +23,15 @@ export default function CalorieRing({ value, goal, size = 104 }: CalorieRingProp
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke={over ? "#F0B75B" : "#3DB868"}
+          stroke={activeColor}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
-          style={{ transition: "stroke-dashoffset 0.5s ease" }}
+          style={{
+            transition: "stroke-dashoffset 0.5s ease",
+            filter: `drop-shadow(0 0 6px ${activeColor}99)`,
+          }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">

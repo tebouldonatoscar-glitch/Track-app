@@ -125,7 +125,7 @@ export default function AddDrinkPage() {
                 type="button"
                 onClick={() => setVolumeMl(preset.ml)}
                 className={`rounded-full px-3 py-1 text-sm ${
-                  volumeMl === preset.ml ? "bg-green-600 text-white" : "bg-slate-700 text-slate-300"
+                  volumeMl === preset.ml ? "bg-green-600 text-black" : "bg-slate-700 text-slate-300"
                 }`}
               >
                 {preset.label}
