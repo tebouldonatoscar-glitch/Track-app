@@ -24,3 +24,12 @@ export const SCORE_BAR_COLOR: Record<HomemadeScore["label"], string> = {
   mediocre: "bg-orange-500",
   mauvais: "bg-red-500",
 };
+
+/** Hex equivalents of SCORE_BAR_COLOR, for a matching glow shadow. */
+export const SCORE_GLOW_COLOR: Record<HomemadeScore["label"], string> = {
+  excellent: "#30D158",
+  bon: "#84CC16",
+  moyen: "#EAB308",
+  mediocre: "#F97316",
+  mauvais: "#EF4444",
+};

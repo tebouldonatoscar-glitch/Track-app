@@ -43,6 +43,7 @@ export default function TrendsChart({ days, goal, getValue, mode, ariaLabel }: T
           const value = getValue(day);
           const barHeight = (value / maxValue) * PLOT_HEIGHT;
           const bad = goal > 0 && (mode === "ceiling" ? value > goal : value < goal && value > 0);
+          const barColor = bad ? badColor : GOOD_COLOR;
           return (
             <g key={day.dateKey}>
               <rect
@@ -51,7 +52,8 @@ export default function TrendsChart({ days, goal, getValue, mode, ariaLabel }: T
                 width={barWidth}
                 height={value > 0 ? Math.max(barHeight, 2) : 0}
                 rx={2}
-                fill={bad ? badColor : GOOD_COLOR}
+                fill={barColor}
+                style={value > 0 ? { filter: `drop-shadow(0 0 4px ${barColor}99)` } : undefined}
               />
               <text
                 x={i * slotWidth + slotWidth / 2}

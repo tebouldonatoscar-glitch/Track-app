@@ -36,20 +36,21 @@ body {
 
   /* systemGreen is high-luminance (green channel dominates perceived
      brightness), so black text clears contrast by a wide margin where
-     white would not - same call iOS makes on tinted-green fills. iOS
-     buttons stay flat with just a subtle cast shadow, not a tinted glow. */
+     white would not - same call iOS makes on tinted-green fills. A
+     tinted glow (rather than a neutral one) is what makes the accent
+     color itself read as vivid against true black. */
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-[14px] bg-green-600 px-4 py-3 font-semibold text-black transition-transform duration-200 active:scale-[0.96] hover:bg-green-500 disabled:opacity-50 disabled:active:scale-100;
     transition-timing-function: var(--ease-spring);
     background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 55%);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.25),
-      0 8px 10px -2px rgba(0, 0, 0, 0.15);
+      0 8px 20px -6px rgba(48, 209, 88, 0.45);
   }
   .btn-primary:active {
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      0 3px 6px -2px rgba(0, 0, 0, 0.15);
+      0 4px 10px -4px rgba(48, 209, 88, 0.4);
   }
 
   .btn-secondary {
@@ -75,6 +76,7 @@ body {
 
   .nav-link-active {
     @apply text-green-400;
+    filter: drop-shadow(0 0 5px rgba(48, 209, 88, 0.6));
   }
 
   /* ---------- iOS-style page chrome ---------- */
@@ -121,7 +123,9 @@ body {
   .row-icon {
     @apply flex h-[29px] w-[29px] flex-shrink-0 items-center justify-center rounded-[8px] bg-slate-600;
     background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 60%);
-    box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+    box-shadow:
+      inset 0 -1px 1px rgba(0, 0, 0, 0.15),
+      0 0 14px 0 var(--glow, transparent);
   }
 
   .chevron {
@@ -147,6 +151,7 @@ body {
 
   .pill-active {
     @apply bg-green-600 font-semibold text-black;
+    box-shadow: 0 0 12px 0 rgba(48, 209, 88, 0.5);
   }
 
   .pill-inactive {
@@ -182,7 +187,9 @@ body {
   .quick-tile-icon {
     @apply flex h-9 w-9 items-center justify-center rounded-[9px];
     background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0) 60%);
-    box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.15);
+    box-shadow:
+      inset 0 -1px 1px rgba(0, 0, 0, 0.15),
+      0 0 14px 0 var(--glow, transparent);
   }
 }
 
