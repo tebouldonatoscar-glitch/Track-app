@@ -45,7 +45,7 @@ export default function HistoryList({ entries, onDelete, limitDays }: HistoryLis
                   </div>
                 )}
                 <div className="min-w-0 flex-1">
-                  {entry.barcode.startsWith("recipe-") ? (
+                  {entry.barcode.startsWith("recipe-") || entry.barcode.startsWith("imported-") ? (
                     <p className="truncate text-[15px] font-medium text-slate-100">{entry.productName}</p>
                   ) : (
                     <Link href={`/product?barcode=${entry.barcode}`} className="block truncate text-[15px] font-medium text-slate-100">
