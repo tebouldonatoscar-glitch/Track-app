@@ -1,28 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { HistoryEntry } from "@/lib/types/product";
 import { deleteHistoryEntry, getAllHistory } from "@/lib/storage/db";
 import { downloadCsv, historyToCsv } from "@/lib/storage/csvExport";
-import NutriScoreBadge from "@/components/NutriScoreBadge";
 import PageHeader from "@/components/PageHeader";
-import { IconMeal, IconTrash } from "@/components/icons";
-
-function groupByDay(entries: HistoryEntry[]): Map<string, HistoryEntry[]> {
-  const groups = new Map<string, HistoryEntry[]>();
-  for (const entry of entries) {
-    const key = new Date(entry.timestamp).toLocaleDateString("fr-FR", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-    });
-    const list = groups.get(key) ?? [];
-    list.push(entry);
-    groups.set(key, list);
-  }
-  return groups;
-}
+import HistoryList from "@/components/HistoryList";
 
 export default function HistoryPage() {
   const [entries, setEntries] = useState<HistoryEntry[]>([]);
@@ -33,8 +17,6 @@ export default function HistoryPage() {
       .then(setEntries)
       .finally(() => setLoading(false));
   }, []);
-
-  const grouped = useMemo(() => groupByDay(entries), [entries]);
 
   const handleDelete = async (id: string) => {
     await deleteHistoryEntry(id);
@@ -75,42 +57,7 @@ export default function HistoryPage() {
           </div>
         )}
 
-        {Array.from(grouped.entries()).map(([day, dayEntries]) => (
-          <section key={day}>
-            <h2 className="section-label capitalize">{day}</h2>
-            <div className="list-group">
-              {dayEntries.map((entry) => (
-                <div key={entry.id} className="list-row">
-                  {entry.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={entry.imageUrl} alt={entry.productName} className="h-11 w-11 flex-shrink-0 rounded-full bg-white object-contain" />
-                  ) : (
-                    <div className="row-icon">
-                      <IconMeal className="h-[18px] w-[18px] text-slate-400" aria-hidden />
-                    </div>
-                  )}
-                  <div className="min-w-0 flex-1">
-                    {entry.barcode.startsWith("recipe-") ? (
-                      <p className="truncate text-[15px] font-medium text-slate-100">{entry.productName}</p>
-                    ) : (
-                      <Link href={`/product?barcode=${entry.barcode}`} className="block truncate text-[15px] font-medium text-slate-100">
-                        {entry.productName}
-                      </Link>
-                    )}
-                    <p className="text-[12.5px] text-slate-500">
-                      {entry.quantityGrams}g · {entry.macros.energyKcal} kcal ·{" "}
-                      {new Date(entry.timestamp).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
-                    </p>
-                  </div>
-                  <NutriScoreBadge grade={entry.nutriScore} size="sm" />
-                  <button onClick={() => handleDelete(entry.id)} aria-label="Supprimer" className="icon-btn hover:!text-red-400">
-                    <IconTrash className="h-[18px] w-[18px]" aria-hidden />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </section>
-        ))}
+        <HistoryList entries={entries} onDelete={handleDelete} />
       </div>
     </main>
   );

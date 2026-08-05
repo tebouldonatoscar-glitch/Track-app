@@ -3,10 +3,12 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { DailyGoals, HistoryEntry } from "@/lib/types/product";
-import { getAllHistory, getDailyGoals } from "@/lib/storage/db";
+import { deleteHistoryEntry, getAllHistory, getDailyGoals } from "@/lib/storage/db";
+import { downloadCsv, historyToCsv } from "@/lib/storage/csvExport";
 import { aggregateHistoryByDay, averageMacros } from "@/lib/macros/trends";
 import TrendsChart from "@/components/TrendsChart";
 import PageHeader from "@/components/PageHeader";
+import HistoryList from "@/components/HistoryList";
 
 const PERIODS = [
   { label: "7 jours", days: 7 },
@@ -32,9 +34,30 @@ export default function TrendsPage() {
   const loggedDays = useMemo(() => days.filter((d) => d.macros.energyKcal > 0), [days]);
   const average = useMemo(() => averageMacros(loggedDays), [loggedDays]);
 
+  const handleDelete = async (id: string) => {
+    await deleteHistoryEntry(id);
+    setEntries((prev) => prev.filter((e) => e.id !== id));
+  };
+
+  const handleExport = () => {
+    const csv = historyToCsv(entries);
+    downloadCsv(csv, `nutriscan-historique-${new Date().toISOString().slice(0, 10)}.csv`);
+  };
+
   return (
     <main className="pb-4">
-      <PageHeader title="Tendances" backHref="/" backLabel="Accueil" />
+      <PageHeader
+        title="Tendances"
+        backHref="/"
+        backLabel="Accueil"
+        action={
+          entries.length > 0 ? (
+            <button onClick={handleExport} className="text-[15px] font-medium text-green-400">
+              Exporter en CSV
+            </button>
+          ) : undefined
+        }
+      />
       <div className="space-y-4 px-4 pt-3">
         <div className="flex gap-2">
           {PERIODS.map((p) => (
@@ -90,6 +113,9 @@ export default function TrendsPage() {
                 </dl>
               )}
             </div>
+
+            <h2 className="section-label">Historique</h2>
+            <HistoryList entries={entries} onDelete={handleDelete} />
           </>
         )}
       </div>
