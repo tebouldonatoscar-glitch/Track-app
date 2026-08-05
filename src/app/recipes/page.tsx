@@ -12,6 +12,8 @@ import {
 } from "@/lib/recipes/calculate";
 import { computeMacroScore } from "@/lib/scoring/macroScore";
 import { SCORE_LABEL_COLOR } from "@/lib/scoring/scoreDisplay";
+import PageHeader from "@/components/PageHeader";
+import { IconTrash } from "@/components/icons";
 
 function RecipeCard({ recipe, onDelete }: { recipe: Recipe; onDelete: (id: string) => void }) {
   const [servingsToLog, setServingsToLog] = useState(1);
@@ -77,9 +79,9 @@ function RecipeCard({ recipe, onDelete }: { recipe: Recipe; onDelete: (id: strin
         <button
           onClick={() => onDelete(recipe.id)}
           aria-label="Supprimer la recette"
-          className="rounded-xl bg-slate-700 px-3 text-slate-400 hover:text-red-400"
+          className="flex items-center justify-center rounded-xl bg-slate-700 px-3 text-slate-400 transition active:scale-95 hover:text-red-400"
         >
-          ✕
+          <IconTrash className="h-[18px] w-[18px]" aria-hidden />
         </button>
       </div>
       {savedMessage && <p className="text-center text-sm text-green-400">{savedMessage}</p>}
@@ -103,36 +105,39 @@ export default function RecipesPage() {
   };
 
   return (
-    <main className="space-y-4 p-4">
-      <div className="flex items-center justify-between pt-2">
-        <Link href="/" className="text-slate-400">
-          ← Accueil
-        </Link>
-        <Link href="/recipes/new" className="text-sm text-green-400 underline">
-          + Créer une recette
-        </Link>
-      </div>
-      <h1 className="text-xl font-bold text-slate-100">Mes recettes</h1>
-      <p className="text-sm text-slate-400">
-        Combinez plusieurs aliments en un plat, avec un score et des macros calculés sur l&apos;ensemble.
-      </p>
+    <main className="pb-4">
+      <PageHeader
+        title="Mes recettes"
+        backHref="/"
+        backLabel="Accueil"
+        action={
+          <Link href="/recipes/new" className="text-[15px] font-medium text-green-400">
+            + Créer
+          </Link>
+        }
+      />
+      <div className="space-y-4 px-4 pt-3">
+        <p className="text-sm text-slate-400">
+          Combinez plusieurs aliments en un plat, avec un score et des macros calculés sur l&apos;ensemble.
+        </p>
 
-      {loading && <p className="text-slate-400">Chargement…</p>}
+        {loading && <p className="text-slate-400">Chargement…</p>}
 
-      {!loading && recipes.length === 0 && (
-        <div className="card text-center text-slate-400">
-          Aucune recette pour le moment.
-          <div className="mt-3">
-            <Link href="/recipes/new" className="btn-primary">
-              Créer ma première recette
-            </Link>
+        {!loading && recipes.length === 0 && (
+          <div className="card text-center text-slate-400">
+            Aucune recette pour le moment.
+            <div className="mt-3">
+              <Link href="/recipes/new" className="btn-primary">
+                Créer ma première recette
+              </Link>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {recipes.map((recipe) => (
-        <RecipeCard key={recipe.id} recipe={recipe} onDelete={handleDelete} />
-      ))}
+        {recipes.map((recipe) => (
+          <RecipeCard key={recipe.id} recipe={recipe} onDelete={handleDelete} />
+        ))}
+      </div>
     </main>
   );
 }

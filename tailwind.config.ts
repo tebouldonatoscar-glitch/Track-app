@@ -11,6 +11,30 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        // Neutral scale re-tuned to a true-black iOS surface system
+        // (systemBackground / secondarySystemBackground / separator, etc.)
+        // instead of Tailwind's default blue-grey slate.
+        slate: {
+          50: "#FFFFFF",
+          100: "#F5F5F7",
+          200: "#E4E4E7",
+          300: "#C7C7CC",
+          400: "#9A9A9E",
+          500: "#79797E",
+          600: "#48484A",
+          700: "#2C2C2E",
+          800: "#1C1C1E",
+          900: "#131314",
+          950: "#000000",
+        },
+        // Herb green accent, standing in for the default Tailwind green.
+        green: {
+          100: "#DFF5E6",
+          400: "#4FCB77",
+          500: "#3DB868",
+          600: "#2F9E58",
+          700: "#23823F",
+        },
       },
     },
   },

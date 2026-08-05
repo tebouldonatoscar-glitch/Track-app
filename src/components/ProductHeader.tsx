@@ -1,6 +1,7 @@
 import type { Product } from "@/lib/types/product";
 import NutriScoreBadge from "@/components/NutriScoreBadge";
 import NovaBadge from "@/components/NovaBadge";
+import { IconMeal } from "@/components/icons";
 
 export default function ProductHeader({ product }: { product: Product }) {
   return (
@@ -14,8 +15,8 @@ export default function ProductHeader({ product }: { product: Product }) {
             className="h-20 w-20 flex-shrink-0 rounded-xl bg-white object-contain"
           />
         ) : (
-          <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-xl bg-slate-700 text-2xl">
-            🍽️
+          <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-xl bg-slate-700">
+            <IconMeal className="h-8 w-8 text-slate-400" aria-hidden />
           </div>
         )}
         <div className="min-w-0 flex-1">

@@ -4,10 +4,10 @@ test.describe("Home dashboard", () => {
   test("renders the dashboard with scan CTA and daily goals", async ({ page }) => {
     await page.goto("/");
 
-    await expect(page.getByRole("heading", { name: "NutriScan" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Accueil" })).toBeVisible();
     await expect(page.getByRole("link", { name: /Scanner un produit/ })).toBeVisible();
     await expect(page.getByText("Aujourd'hui")).toBeVisible();
-    await expect(page.getByText(/Calories/)).toBeVisible();
+    await expect(page.getByText(/kcal/)).toBeVisible();
 
     await page.screenshot({ path: "docs/screenshots/01-home.png", fullPage: true });
   });

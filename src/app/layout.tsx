@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#16a34a",
+  themeColor: "#000000",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -33,10 +33,8 @@ export default function RootLayout({
       <body className="antialiased">
         <ServiceWorkerRegister />
         <OnlineStatusBanner />
-        <div className="mx-auto min-h-screen max-w-md pb-20">{children}</div>
-        <div className="mx-auto max-w-md">
-          <BottomNav />
-        </div>
+        <div className="mx-auto min-h-screen max-w-md pb-24">{children}</div>
+        <BottomNav />
       </body>
     </html>
   );

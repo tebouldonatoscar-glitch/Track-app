@@ -10,6 +10,8 @@ import { isValidBarcode } from "@/lib/api/openFoodFacts";
 import { convertPerUnitToPer100g } from "@/lib/macros/calculate";
 import { parseNumberField } from "@/lib/utils/parseNumberField";
 import NumField from "@/components/NumField";
+import PageHeader from "@/components/PageHeader";
+import { IconCamera } from "@/components/icons";
 
 function AddProductForm() {
   const searchParams = useSearchParams();
@@ -124,18 +126,17 @@ function AddProductForm() {
   };
 
   return (
-    <main className="space-y-4 p-4 pb-10">
-      <Link href="/" className="text-slate-400">
-        ← Accueil
-      </Link>
-      <h1 className="text-xl font-bold text-slate-100">Ajouter un produit</h1>
-      <p className="text-sm text-slate-400">
-        Pour un produit sans code-barres (œufs, farine, fruits en vrac…), laissez le champ
-        code-barres vide.
-      </p>
-      <Link href="/add/label" className="block text-sm text-green-400 underline">
-        📷 Ou prenez en photo l&apos;étiquette nutritionnelle, l&apos;IA lit les chiffres →
-      </Link>
+    <main className="pb-10">
+      <PageHeader title="Ajouter un produit" backHref="/" backLabel="Accueil" />
+      <div className="space-y-4 px-4 pt-3">
+        <p className="text-sm text-slate-400">
+          Pour un produit sans code-barres (œufs, farine, fruits en vrac…), laissez le champ
+          code-barres vide.
+        </p>
+        <Link href="/add/label" className="flex items-center gap-1.5 text-sm text-green-400">
+          <IconCamera className="h-4 w-4 flex-shrink-0" aria-hidden />
+          Ou prenez en photo l&apos;étiquette nutritionnelle, l&apos;IA lit les chiffres →
+        </Link>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -301,6 +302,7 @@ function AddProductForm() {
           Enregistrer le produit
         </button>
       </form>
+      </div>
     </main>
   );
 }

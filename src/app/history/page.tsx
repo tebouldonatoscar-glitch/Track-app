@@ -6,6 +6,8 @@ import type { HistoryEntry } from "@/lib/types/product";
 import { deleteHistoryEntry, getAllHistory } from "@/lib/storage/db";
 import { downloadCsv, historyToCsv } from "@/lib/storage/csvExport";
 import NutriScoreBadge from "@/components/NutriScoreBadge";
+import PageHeader from "@/components/PageHeader";
+import { IconMeal, IconTrash } from "@/components/icons";
 
 function groupByDay(entries: HistoryEntry[]): Map<string, HistoryEntry[]> {
   const groups = new Map<string, HistoryEntry[]>();
@@ -45,68 +47,71 @@ export default function HistoryPage() {
   };
 
   return (
-    <main className="space-y-4 p-4">
-      <div className="flex items-center justify-between pt-2">
-        <Link href="/" className="text-slate-400">
-          ← Accueil
-        </Link>
-        {entries.length > 0 && (
-          <button onClick={handleExport} className="text-sm text-green-400 underline">
-            Exporter en CSV
-          </button>
-        )}
-      </div>
-      <h1 className="text-xl font-bold text-slate-100">Historique</h1>
+    <main className="pb-4">
+      <PageHeader
+        title="Historique"
+        backHref="/"
+        backLabel="Accueil"
+        action={
+          entries.length > 0 ? (
+            <button onClick={handleExport} className="text-[15px] font-medium text-green-400">
+              Exporter en CSV
+            </button>
+          ) : undefined
+        }
+      />
 
-      {loading && <p className="text-slate-400">Chargement…</p>}
+      <div className="space-y-4 px-4 pt-3">
+        {loading && <p className="text-slate-400">Chargement…</p>}
 
-      {!loading && entries.length === 0 && (
-        <div className="card text-center text-slate-400">
-          Aucun scan enregistré pour le moment.
-          <div className="mt-3">
-            <Link href="/scan" className="btn-primary">
-              Scanner un produit
-            </Link>
-          </div>
-        </div>
-      )}
-
-      {Array.from(grouped.entries()).map(([day, dayEntries]) => (
-        <section key={day} className="space-y-2">
-          <h2 className="text-sm font-medium capitalize text-slate-400">{day}</h2>
-          {dayEntries.map((entry) => (
-            <div key={entry.id} className="card flex items-center gap-3">
-              {entry.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={entry.imageUrl} alt={entry.productName} className="h-12 w-12 rounded-lg bg-white object-contain" />
-              ) : (
-                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-slate-700">🍽️</div>
-              )}
-              <div className="min-w-0 flex-1">
-                {entry.barcode.startsWith("recipe-") ? (
-                  <p className="truncate font-medium text-slate-200">{entry.productName}</p>
-                ) : (
-                  <Link href={`/product?barcode=${entry.barcode}`} className="block truncate font-medium text-slate-200">
-                    {entry.productName}
-                  </Link>
-                )}
-                <p className="text-xs text-slate-500">
-                  {entry.quantityGrams}g · {entry.macros.energyKcal} kcal ·{" "}
-                  {new Date(entry.timestamp).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
-                </p>
-              </div>
-              <NutriScoreBadge grade={entry.nutriScore} size="sm" />
-              <button
-                onClick={() => handleDelete(entry.id)}
-                aria-label="Supprimer"
-                className="text-slate-500 hover:text-red-400"
-              >
-                ✕
-              </button>
+        {!loading && entries.length === 0 && (
+          <div className="card text-center text-slate-400">
+            Aucun scan enregistré pour le moment.
+            <div className="mt-3">
+              <Link href="/scan" className="btn-primary">
+                Scanner un produit
+              </Link>
             </div>
-          ))}
-        </section>
-      ))}
+          </div>
+        )}
+
+        {Array.from(grouped.entries()).map(([day, dayEntries]) => (
+          <section key={day}>
+            <h2 className="section-label capitalize">{day}</h2>
+            <div className="list-group">
+              {dayEntries.map((entry) => (
+                <div key={entry.id} className="list-row">
+                  {entry.imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={entry.imageUrl} alt={entry.productName} className="h-11 w-11 flex-shrink-0 rounded-full bg-white object-contain" />
+                  ) : (
+                    <div className="row-icon">
+                      <IconMeal className="h-[18px] w-[18px] text-slate-400" aria-hidden />
+                    </div>
+                  )}
+                  <div className="min-w-0 flex-1">
+                    {entry.barcode.startsWith("recipe-") ? (
+                      <p className="truncate text-[15px] font-medium text-slate-100">{entry.productName}</p>
+                    ) : (
+                      <Link href={`/product?barcode=${entry.barcode}`} className="block truncate text-[15px] font-medium text-slate-100">
+                        {entry.productName}
+                      </Link>
+                    )}
+                    <p className="text-[12.5px] text-slate-500">
+                      {entry.quantityGrams}g · {entry.macros.energyKcal} kcal ·{" "}
+                      {new Date(entry.timestamp).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+                    </p>
+                  </div>
+                  <NutriScoreBadge grade={entry.nutriScore} size="sm" />
+                  <button onClick={() => handleDelete(entry.id)} aria-label="Supprimer" className="icon-btn hover:!text-red-400">
+                    <IconTrash className="h-[18px] w-[18px]" aria-hidden />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
     </main>
   );
 }

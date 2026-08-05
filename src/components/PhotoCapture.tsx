@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
+import { IconCamera } from "@/components/icons";
 
 interface PhotoCaptureProps {
   onCapture: (file: File) => void;
@@ -109,7 +110,8 @@ export default function PhotoCapture({ onCapture }: PhotoCaptureProps) {
           }}
           className="btn-secondary flex-1"
         >
-          📷 Prendre une photo
+          <IconCamera className="h-[18px] w-[18px]" aria-hidden />
+          Prendre une photo
         </button>
         <label htmlFor={fileInputId} className="btn-secondary flex-1 cursor-pointer text-center">
           Depuis la galerie

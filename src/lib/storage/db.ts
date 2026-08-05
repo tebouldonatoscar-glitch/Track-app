@@ -60,8 +60,8 @@ function getDb(): Promise<IDBPDatabase<NutriScanDB>> {
 }
 
 export const DEFAULT_GOALS: DailyGoals = {
-  energyKcal: 2200,
-  proteins: 150,
+  energyKcal: 2050,
+  proteins: 100,
   carbohydrates: 250,
   fat: 70,
 };

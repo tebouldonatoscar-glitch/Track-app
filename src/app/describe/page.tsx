@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import type { AiMealEstimate, GeminiEstimateErrorCode } from "@/lib/ai/types";
 import { estimateMealWithGemini } from "@/lib/ai/geminiEstimate";
 import { extractGeminiErrorDetail } from "@/lib/ai/extractErrorDetail";
@@ -18,6 +17,8 @@ import { generateManualProductId } from "@/lib/storage/generateId";
 import { addHistoryEntry } from "@/lib/storage/db";
 import MacroBreakdownCard from "@/components/MacroBreakdownCard";
 import PhotoCapture from "@/components/PhotoCapture";
+import PageHeader from "@/components/PageHeader";
+import { IconMeal } from "@/components/icons";
 
 const ERROR_MESSAGES: Record<GeminiEstimateErrorCode, string> = {
   missing_api_key: "Renseigne ta clé API Gemini ci-dessus avant d'estimer.",
@@ -164,24 +165,22 @@ export default function DescribePage() {
   const canEstimate = apiKey.trim() !== "" && (description.trim() !== "" || photoFile !== null) && !loading;
 
   return (
-    <main className="space-y-4 p-4 pb-10">
-      <Link href="/" className="text-slate-400">
-        ← Accueil
-      </Link>
-      <h1 className="text-xl font-bold text-slate-100">Décrire un plat (IA)</h1>
-      <p className="text-sm text-slate-400">
-        Décris ton plat et/ou ajoute une photo, l&apos;IA estime les valeurs nutritionnelles. Utilise
-        ta propre clé API Gemini gratuite (
-        <a
-          href="https://aistudio.google.com/apikey"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline"
-        >
-          aistudio.google.com
-        </a>
-        ), stockée uniquement dans ton navigateur.
-      </p>
+    <main className="pb-10">
+      <PageHeader title="Décrire un plat (IA)" backHref="/" backLabel="Accueil" />
+      <div className="space-y-4 px-4 pt-3">
+        <p className="text-sm text-slate-400">
+          Décris ton plat et/ou ajoute une photo, l&apos;IA estime les valeurs nutritionnelles. Utilise
+          ta propre clé API Gemini gratuite (
+          <a
+            href="https://aistudio.google.com/apikey"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            aistudio.google.com
+          </a>
+          ), stockée uniquement dans ton navigateur.
+        </p>
 
       <div className="card space-y-3">
         <button
@@ -274,7 +273,9 @@ export default function DescribePage() {
         {photoPreviewUrl && (
           <div className="mt-2 flex items-center gap-3">
             {previewLoadFailed ? (
-              <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-slate-700 text-2xl">🖼️</div>
+              <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-slate-700">
+                <IconMeal className="h-8 w-8 text-slate-400" aria-hidden />
+              </div>
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -337,6 +338,7 @@ export default function DescribePage() {
           {savedMessage && <p className="text-center text-sm text-green-400">{savedMessage}</p>}
         </div>
       )}
+      </div>
     </main>
   );
 }
