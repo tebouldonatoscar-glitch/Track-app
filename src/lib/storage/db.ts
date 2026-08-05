@@ -71,6 +71,13 @@ export async function addHistoryEntry(entry: HistoryEntry): Promise<void> {
   await db.put("history", entry);
 }
 
+/** Bulk insert (e.g. restoring a CSV export) in a single transaction instead of one per entry. */
+export async function addHistoryEntries(entries: HistoryEntry[]): Promise<void> {
+  const db = await getDb();
+  const tx = db.transaction("history", "readwrite");
+  await Promise.all([...entries.map((entry) => tx.store.put(entry)), tx.done]);
+}
+
 export async function getAllHistory(): Promise<HistoryEntry[]> {
   const db = await getDb();
   const all = await db.getAllFromIndex("history", "by-timestamp");

@@ -94,7 +94,7 @@ export default function HomePage() {
           <div className="grid grid-cols-4 gap-2">
             {QUICK_ACTIONS.map(({ href, label, Icon, color }) => (
               <Link key={href} href={href} className="quick-tile" title={label}>
-                <span className="quick-tile-icon" style={{ background: color }}>
+                <span className="quick-tile-icon" style={{ backgroundColor: color }}>
                   <Icon className="h-[18px] w-[18px] text-white" aria-hidden />
                 </span>
                 <span className="text-[11px] font-medium leading-tight text-slate-300">{label}</span>
@@ -133,7 +133,7 @@ export default function HomePage() {
           <div className="list-group">
             {EXPLORE_LINKS.map(({ href, label, Icon, color }) => (
               <Link key={href} href={href} className="list-row">
-                <span className="row-icon" style={{ background: color }}>
+                <span className="row-icon" style={{ backgroundColor: color }}>
                   <Icon className="h-4 w-4 text-white" aria-hidden />
                 </span>
                 <span className="flex-1 text-[15px] text-slate-100">{label}</span>
