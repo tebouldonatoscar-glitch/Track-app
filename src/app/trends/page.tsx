@@ -88,9 +88,29 @@ export default function TrendsPage() {
           <>
             <div className="card space-y-3">
               <h2 className="font-semibold text-slate-200">Calories par jour</h2>
-              <TrendsChart days={days} goalKcal={goals.energyKcal} />
+              <TrendsChart
+                days={days}
+                goal={goals.energyKcal}
+                getValue={(d) => d.macros.energyKcal}
+                mode="ceiling"
+                ariaLabel="Calories consommées par jour"
+              />
               <p className="text-xs text-slate-500">
-                Ligne pointillée = objectif quotidien ({goals.energyKcal} kcal). Orange = jour au-dessus de l&apos;objectif.
+                Ligne pointillée = objectif quotidien ({goals.energyKcal} kcal). Rouge = jour au-dessus de l&apos;objectif.
+              </p>
+            </div>
+
+            <div className="card space-y-3">
+              <h2 className="font-semibold text-slate-200">Protéines par jour</h2>
+              <TrendsChart
+                days={days}
+                goal={goals.proteins}
+                getValue={(d) => d.macros.proteins}
+                mode="floor"
+                ariaLabel="Protéines consommées par jour"
+              />
+              <p className="text-xs text-slate-500">
+                Ligne pointillée = objectif quotidien ({goals.proteins} g). Orange = jour en dessous de l&apos;objectif.
               </p>
             </div>
 
