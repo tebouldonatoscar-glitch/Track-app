@@ -91,7 +91,7 @@ export default function HomePage() {
               <Link key={href} href={href} className="quick-tile" title={label}>
                 <span
                   className="quick-tile-icon"
-                  style={{ backgroundColor: color, "--glow": hexToRgba(color, 0.55) } as React.CSSProperties}
+                  style={{ backgroundColor: color, "--glow": hexToRgba(color, 0.32) } as React.CSSProperties}
                 >
                   <Icon className="h-[18px] w-[18px] text-white" aria-hidden />
                 </span>
@@ -133,7 +133,7 @@ export default function HomePage() {
               <Link key={href} href={href} className="list-row">
                 <span
                   className="row-icon"
-                  style={{ backgroundColor: color, "--glow": hexToRgba(color, 0.5) } as React.CSSProperties}
+                  style={{ backgroundColor: color, "--glow": hexToRgba(color, 0.3) } as React.CSSProperties}
                 >
                   <Icon className="h-4 w-4 text-white" aria-hidden />
                 </span>
@@ -159,7 +159,7 @@ function MacroLegendRow({ color, label, value, goal }: { color: string; label: s
       <div className="flex items-center gap-2">
         <span
           className="h-2 w-2 flex-shrink-0 rounded-full"
-          style={{ background: barColor, boxShadow: `0 0 6px 0 ${hexToRgba(barColor, 0.7)}` }}
+          style={{ background: barColor, boxShadow: `0 0 3px 0 ${hexToRgba(barColor, 0.4)}` }}
           aria-hidden
         />
         <span className="text-[13px] tabular-nums">
@@ -171,7 +171,7 @@ function MacroLegendRow({ color, label, value, goal }: { color: string; label: s
       <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-700">
         <div
           className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${percent}%`, background: barColor, boxShadow: `0 0 8px 0 ${hexToRgba(barColor, 0.65)}` }}
+          style={{ width: `${percent}%`, background: barColor, boxShadow: `0 0 4px 0 ${hexToRgba(barColor, 0.35)}` }}
         />
       </div>
     </div>
