@@ -73,6 +73,8 @@ body {
 
   .page-header {
     @apply sticky top-0 z-20 -mx-4 mb-1 border-b border-slate-800 bg-black/80 px-4 pb-3 pt-2 backdrop-blur-xl;
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .page-header-back {
@@ -142,9 +144,16 @@ body {
     @apply bg-slate-700 text-slate-300;
   }
 
+  /* Mobile Chrome resizes the viewport as its own toolbar hides/shows on
+     scroll, and re-layouts a `position: fixed` + `backdrop-filter` element
+     on every one of those ticks - that repaint is what reads as the bar
+     visibly jumping mid-scroll. Promoting it to its own GPU-composited
+     layer lets it track bottom:0 without going through layout each frame. */
   .tab-bar {
     @apply fixed bottom-0 left-0 right-0 z-40 mx-auto flex max-w-md border-t border-slate-800 bg-black/85 backdrop-blur-xl;
     padding-bottom: env(safe-area-inset-bottom, 0px);
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .icon-btn {
