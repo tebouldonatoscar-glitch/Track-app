@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import type { Recipe, RecipeIngredient } from "@/lib/types/product";
 import { BUILTIN_FOODS } from "@/lib/data/genericFoods";
 import { normalizeSearchText } from "@/lib/utils/normalize";
@@ -12,6 +11,8 @@ import { computeRecipePerServingMacros, computeRecipeTotalMacros, recipeNutrient
 import { computeMacroScore } from "@/lib/scoring/macroScore";
 import { SCORE_LABEL_COLOR } from "@/lib/scoring/scoreDisplay";
 import MacroBreakdownCard from "@/components/MacroBreakdownCard";
+import PageHeader from "@/components/PageHeader";
+import { IconX } from "@/components/icons";
 
 export default function NewRecipePage() {
   const router = useRouter();
@@ -60,12 +61,9 @@ export default function NewRecipePage() {
   };
 
   return (
-    <main className="space-y-4 p-4">
-      <Link href="/recipes" className="text-slate-400">
-        ← Mes recettes
-      </Link>
-      <h1 className="text-xl font-bold text-slate-100">Nouvelle recette</h1>
-
+    <main className="pb-4">
+      <PageHeader title="Nouvelle recette" backHref="/recipes" backLabel="Mes recettes" />
+      <div className="space-y-4 px-4 pt-3">
       <div className="card space-y-3">
         <div>
           <label htmlFor="recipe-name" className="mb-1 block text-sm font-medium text-slate-300">
@@ -148,9 +146,9 @@ export default function NewRecipePage() {
                 type="button"
                 onClick={() => removeIngredient(index)}
                 aria-label={`Retirer ${ingredient.name}`}
-                className="text-slate-500 hover:text-red-400"
+                className="icon-btn !h-6 !w-6 hover:!text-red-400"
               >
-                ✕
+                <IconX className="h-4 w-4" aria-hidden />
               </button>
             </div>
           ))}
@@ -176,6 +174,7 @@ export default function NewRecipePage() {
       <button className="btn-primary w-full" onClick={handleSave} disabled={!canSave}>
         Enregistrer la recette
       </button>
+      </div>
     </main>
   );
 }

@@ -1,5 +1,6 @@
 import type { MacroBreakdown } from "@/lib/types/product";
 import { proteinCalorieRatio } from "@/lib/macros/calculate";
+import { IconMuscle } from "@/components/icons";
 
 interface MacroRow {
   label: string;
@@ -28,10 +29,11 @@ export default function MacroBreakdownCard({ macros }: { macros: MacroBreakdown 
         <h3 className="font-semibold text-slate-200">Macronutriments</h3>
         {ratio !== null && (
           <span
-            className="rounded-full bg-blue-900/60 px-3 py-1 text-xs font-medium text-blue-300"
+            className="inline-flex items-center gap-1 rounded-full bg-blue-900/60 px-3 py-1 text-xs font-medium text-blue-300"
             title="Ratio protéines/calories"
           >
-            💪 {ratio}% protéines
+            <IconMuscle className="h-3.5 w-3.5" aria-hidden />
+            {ratio}% protéines
           </span>
         )}
       </div>

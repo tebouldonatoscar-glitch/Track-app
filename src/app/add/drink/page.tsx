@@ -2,12 +2,12 @@
 
 import { useId, useState } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import type { Product } from "@/lib/types/product";
 import { saveManualProduct } from "@/lib/storage/db";
 import { generateManualProductId } from "@/lib/storage/generateId";
 import { convertPerUnitToPer100g } from "@/lib/macros/calculate";
 import { parseNumberField } from "@/lib/utils/parseNumberField";
+import PageHeader from "@/components/PageHeader";
 
 const VOLUME_PRESETS = [
   { label: "Canette (33cl)", ml: 330 },
@@ -81,16 +81,14 @@ export default function AddDrinkPage() {
   };
 
   return (
-    <main className="space-y-4 p-4">
-      <Link href="/foods" className="text-slate-400">
-        ← Aliments courants
-      </Link>
-      <h1 className="text-xl font-bold text-slate-100">Ajouter une boisson</h1>
-      <p className="text-sm text-slate-400">
-        Pour un soda, jus ou autre boisson dont les calories sur l&apos;étiquette diffèrent des
-        valeurs moyennes : indiquez juste le volume et les calories inscrites, sans avoir besoin du
-        détail des protéines/glucides/lipides.
-      </p>
+    <main className="pb-4">
+      <PageHeader title="Ajouter une boisson" backHref="/foods" backLabel="Aliments courants" />
+      <div className="space-y-4 px-4 pt-3">
+        <p className="text-sm text-slate-400">
+          Pour un soda, jus ou autre boisson dont les calories sur l&apos;étiquette diffèrent des
+          valeurs moyennes : indiquez juste le volume et les calories inscrites, sans avoir besoin du
+          détail des protéines/glucides/lipides.
+        </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -175,6 +173,7 @@ export default function AddDrinkPage() {
           Enregistrer la boisson
         </button>
       </form>
+      </div>
     </main>
   );
 }

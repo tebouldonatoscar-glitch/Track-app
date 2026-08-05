@@ -2,7 +2,6 @@
 
 import { Suspense, useEffect, useId, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
 import type { Product } from "@/lib/types/product";
 import { scanNutritionLabelWithGemini } from "@/lib/ai/geminiLabelScan";
 import { extractGeminiErrorDetail } from "@/lib/ai/extractErrorDetail";
@@ -19,6 +18,8 @@ import { generateManualProductId } from "@/lib/storage/generateId";
 import { parseNumberField } from "@/lib/utils/parseNumberField";
 import NumField from "@/components/NumField";
 import PhotoCapture from "@/components/PhotoCapture";
+import PageHeader from "@/components/PageHeader";
+import { IconMeal } from "@/components/icons";
 import type { GeminiEstimateErrorCode } from "@/lib/ai/types";
 
 const ERROR_MESSAGES: Record<GeminiEstimateErrorCode, string> = {
@@ -188,26 +189,24 @@ function AddLabelForm() {
   const canScan = apiKey.trim() !== "" && photoFile !== null && !scanning;
 
   return (
-    <main className="space-y-4 p-4 pb-10">
-      <Link href="/add" className="text-slate-400">
-        ← Ajouter un produit
-      </Link>
-      <h1 className="text-xl font-bold text-slate-100">Scanner une étiquette (photo)</h1>
-      <p className="text-sm text-slate-400">
-        Pour un produit dont le code-barres ne scanne pas : prends en photo le tableau de valeurs
-        nutritionnelles imprimé sur l&apos;emballage, l&apos;IA en lit les chiffres. Vérifie-les
-        avant d&apos;enregistrer, une lecture peut se tromper. Utilise ta propre clé API Gemini
-        gratuite (
-        <a
-          href="https://aistudio.google.com/apikey"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline"
-        >
-          aistudio.google.com
-        </a>
-        ), stockée uniquement dans ton navigateur.
-      </p>
+    <main className="pb-10">
+      <PageHeader title="Scanner une étiquette (photo)" backHref="/add" backLabel="Ajouter un produit" />
+      <div className="space-y-4 px-4 pt-3">
+        <p className="text-sm text-slate-400">
+          Pour un produit dont le code-barres ne scanne pas : prends en photo le tableau de valeurs
+          nutritionnelles imprimé sur l&apos;emballage, l&apos;IA en lit les chiffres. Vérifie-les
+          avant d&apos;enregistrer, une lecture peut se tromper. Utilise ta propre clé API Gemini
+          gratuite (
+          <a
+            href="https://aistudio.google.com/apikey"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline"
+          >
+            aistudio.google.com
+          </a>
+          ), stockée uniquement dans ton navigateur.
+        </p>
 
       <div className="card space-y-3">
         <button
@@ -259,7 +258,9 @@ function AddLabelForm() {
         {photoPreviewUrl && (
           <div className="mt-2 flex items-center gap-3">
             {previewLoadFailed ? (
-              <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-slate-700 text-2xl">🖼️</div>
+              <div className="flex h-20 w-20 items-center justify-center rounded-xl bg-slate-700">
+                <IconMeal className="h-8 w-8 text-slate-400" aria-hidden />
+              </div>
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -345,6 +346,7 @@ function AddLabelForm() {
           </button>
         </form>
       )}
+      </div>
     </main>
   );
 }
